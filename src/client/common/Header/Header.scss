@@ -1,0 +1,24 @@
+//import globals style from variables
+@import "../../../styles/variables";
+.header-wrapper {
+  padding: 1em 0;
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      width: 200px;
+      height: 40px;
+    }
+  }
+  .hamburger-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .hamburger-button {
+    background-color: $main_color;
+    border-radius: 8px;
+  }
+}
