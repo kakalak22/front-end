@@ -5,11 +5,14 @@ import { Home } from "./client/View";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/">
-        <Route index element={<Home />} />
-      </Route>
-    </Routes>
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/">
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
