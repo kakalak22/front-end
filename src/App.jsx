@@ -7,7 +7,6 @@ function App() {
   return (
     <div>
       <Header />
-      <OverlayNav />
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
