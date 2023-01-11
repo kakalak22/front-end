@@ -1,5 +1,6 @@
 import Header from "./Header";
-
+import OverlayNav from "./OverlayNav";
 export {
-    Header
+    Header,
+    OverlayNav
 }
