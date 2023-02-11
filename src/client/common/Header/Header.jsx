@@ -72,7 +72,7 @@ const Header = () => {
               />
             </div>
             <Button className="signup-btn" variant="primary">
-              Sign Up
+              Login
             </Button>
           </Col>
         </Row>

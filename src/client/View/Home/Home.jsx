@@ -1,5 +1,6 @@
 import React from "react";
-import { Carousel, GetMeal } from "../../components";
+import { Carousel, Categories, GetMeal } from "../../components";
+import ItemList from "../../components/ItemList/ItemList";
 import "./Home.scss";
 
 const Home = () => {
@@ -7,6 +8,8 @@ const Home = () => {
     <div className="home-wrapper">
       <Carousel />
       <GetMeal />
+      <Categories/>
+      <ItemList/>
     </div>
   );
 };
