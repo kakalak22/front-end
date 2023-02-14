@@ -1,0 +1,23 @@
+.feedback-container {
+    padding: 73px;
+
+    .text-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+        padding: 50px;
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.2em;
+        }
+
+        p {
+            color: #656565;
+            font-family: "Open Sans", Sans-serif;
+            font-size: 18px;
+            line-height: 2em;
+        }
+    }
+}

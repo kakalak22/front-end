@@ -150,6 +150,10 @@
         background-color: $main_color_hover;
         transition: all ease 0.5s;
       }
+
+      &:active{
+        background-color: $main_color_hover;
+      }
     }
   }
 }

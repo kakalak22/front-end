@@ -1,9 +1,11 @@
+import { Stack } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import './ItemCard.scss';
 
 const ItemCard = () => {
   return (
-    <Card style={{ width: '300px' }}>
+    <Card style={{ width: '300px' }} border="light" >
       <Card.Img variant="top"
       width={270}
       height={200}
@@ -14,7 +16,9 @@ const ItemCard = () => {
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Stack >
+          <Button  className='add-to-cart-btn'>Add to Cart</Button>
+        </Stack>
       </Card.Body>
     </Card>
   );
