@@ -1,29 +1,16 @@
 import * as types from "../constant/actionType";
 
 const initialState = {
-    posts: [],
-    loading: false,
-    error: null
+    isItemDetailModalShow:false,
+    
 };
 
 const postReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case types.FETCH_POST_START:
-            return {
+    switch (action?.type) {
+        case types.TOOGLE_ITEM_MODAL:
+            return{
                 ...state,
-                loading: true
-            }
-        case types.FETCH_POST_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                posts: action.payload
-            }
-        case types.FETCH_POST_FAIL:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload
+                isItemDetailModalShow: action.payload
             }
         default:
             return state;

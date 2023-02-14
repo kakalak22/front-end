@@ -1,6 +1,7 @@
 import React from "react";
 import { Carousel, Categories, GetMeal } from "../../components";
 import Feedback from "../../components/Feedback";
+import ItemDetailModal from "../../components/ItemDetailModal";
 import ItemList from "../../components/ItemList/ItemList";
 import "./Home.scss";
 
@@ -12,6 +13,7 @@ const Home = () => {
       <Categories/>
       <ItemList/>
       <Feedback/>
+      <ItemDetailModal/>
     </div>
   );
 };

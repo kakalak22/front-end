@@ -1,4 +1,4 @@
-import * as types from "./actionType";
+import * as types from "../constant/actionType";
 import axios from "axios";
 
 const fetchPostStart = () => ({
@@ -16,6 +16,17 @@ const fetchPostFail = (error) => ({
     type: types.FETCH_POST_FAIL,
     payload: error
 })
+
+const toggleItemModalStart = (status) => ({
+    type: types.TOOGLE_ITEM_MODAL,
+    payload: status
+})
+
+export function toggleItemModal(status){
+    return function (dispatch){
+        dispatch(toggleItemModalStart(status));
+    }
+}
 
 export function fetchPost() {
     return function (dispatch) {
