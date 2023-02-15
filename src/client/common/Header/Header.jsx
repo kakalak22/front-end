@@ -6,10 +6,16 @@ import Hamburger from "hamburger-react";
 import { useLocation, Outlet } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import OverlayNav from "../OverlayNav";
+import { useDispatch } from "react-redux";
+import { toggleLoginModal } from "../../../redux/action";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [isDropDownClicked, setIsDropDownClicked] = useState(false);
+  const dispatch = useDispatch();
+  const handleShowLoginModal = () =>{
+    dispatch(toggleLoginModal(true));
+  }
   let location = useLocation();
   const links = [
     { to: "/", name: "Home" },
@@ -71,7 +77,7 @@ const Header = () => {
                 rounded
               />
             </div>
-            <Button className="signup-btn" variant="primary">
+            <Button className="signup-btn" variant="primary" onClick={handleShowLoginModal}>
               Login
             </Button>
           </Col>

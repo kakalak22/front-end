@@ -18,13 +18,33 @@ const fetchPostFail = (error) => ({
 })
 
 const toggleItemModalStart = (status) => ({
-    type: types.TOOGLE_ITEM_MODAL,
+    type: types.TOGGLE_ITEM_MODAL,
+    payload: status
+})
+
+const toggleLoginModalStart = (status) =>({
+    type: types.TOGGLE_LOGIN_MODAL,
+    payload: status
+})
+const toggleRegisterModalStart = (status) =>({
+    type: types.TOGGLE_REGISTER_MODAL,
     payload: status
 })
 
 export function toggleItemModal(status){
     return function (dispatch){
         dispatch(toggleItemModalStart(status));
+    }
+}
+
+export function toggleLoginModal(status){
+    return function (dispatch){
+        dispatch(toggleLoginModalStart(status));
+    }
+}
+export function toggleRegisterModal(status){
+    return function (dispatch){
+        dispatch(toggleRegisterModalStart(status));
     }
 }
 

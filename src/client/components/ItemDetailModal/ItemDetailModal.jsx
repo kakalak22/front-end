@@ -17,11 +17,7 @@ const ItemDetailModal = () => {
     }
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button>
-
-            <Modal show={isItemDetailModalShow} onHide={handleClose}>
+            <Modal show={isItemDetailModalShow} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
