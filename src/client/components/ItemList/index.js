@@ -1,2 +1,2 @@
-import ItemList from "./ItemList";
-export default ItemList;
+import ItemListRecipes from "./ItemListRecipes";
+export default ItemListRecipes;

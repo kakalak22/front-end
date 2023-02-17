@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Form, InputGroup, Modal, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSchema } from '../../../constant/schema';
-import { toggleRegisterModal } from '../../../redux/action';
+import { toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
 import './RegisterModal.scss';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -14,14 +14,15 @@ const RegisterModal = () => {
     const dispatch = useDispatch();
     const { isRegisterModalShow } = useSelector(state => ({ ...state.data }));
     const handleShow = () => {
-        dispatch(toggleRegisterModal(true));
+        dispatch(toggleLoginModal(true));
+        dispatch(toggleRegisterModal(false))
     }
     const handleClose = () => {
-        dispatch(toggleRegisterModal(false));
+        dispatch(toggleLoginModal(false));
     }
 
-    const handleRegisterClicked = () => {
-        console.log('clicked')
+    const handleLoginClicked = () => {
+        handleShow();
     }
 
     const handleShowPassword = () => {
@@ -214,7 +215,7 @@ const RegisterModal = () => {
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
                         </Form.Group> */}
-                        <p>Already have account? Login <Button variant='link' className='link-btn' onClick={handleRegisterClicked}>here</Button> </p>
+                        <p>Already have account? Login <Button variant='link' className='link-btn' onClick={handleLoginClicked}>here</Button> </p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={handleClose}>

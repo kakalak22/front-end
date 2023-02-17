@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import { Carousel, Categories, GetMeal } from "../../components";
 import CartButton from "../../components/CartButton";
 import Feedback from "../../components/Feedback";
-import ItemList from "../../components/ItemList/ItemList";
+import ItemListRecipes from "../../components/ItemList/ItemListRecipes";
+import ItemListIngredents from "../../components/ItemListIngredents";
 import "./Home.scss";
 
 const Home = () => {
@@ -39,7 +40,8 @@ const Home = () => {
       <Carousel />
       <GetMeal />
       <Categories/>
-      <ItemList/>
+      <ItemListRecipes/>
+      <ItemListIngredents/>
       <Feedback/>
       {showButton && <CartButton/>}
     </div>

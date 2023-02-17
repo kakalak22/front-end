@@ -3,7 +3,7 @@ import * as types from "../constant/actionType";
 const initialState = {
     isItemDetailModalShow:false,
     isLoginModalShow: false,
-    isRegisterModalShow: true,
+    isRegisterModalShow: false,
 };
 
 const postReducer = (state = initialState, action) => {
