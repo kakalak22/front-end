@@ -3,8 +3,17 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './ItemCard.scss';
 import subString from '../../../utils/subString';
+import { setRecipe, toggleRecipeDetailModal } from '../../../redux/action';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ItemCard = ({ data, type }) => {
+  const dispatch = useDispatch();
+  
+  const handleViewMore = () =>{
+    dispatch(setRecipe(data))
+    dispatch(toggleRecipeDetailModal(true));
+
+  }
   return (
     <Card style={{ width: '300px' }} border="light" className='card-wrapper'>
       <Card.Img variant="top"
@@ -24,7 +33,7 @@ const ItemCard = ({ data, type }) => {
             <Button className='add-to-cart-btn'>Add to Cart</Button>
           </Stack> :
           <Stack >
-            <Button className='add-to-cart-btn'>View More</Button>
+            <Button className='add-to-cart-btn' onClick={handleViewMore}>View More</Button>
           </Stack>
         }
       </Card.Body>

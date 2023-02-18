@@ -9,6 +9,7 @@ import RegisterModal from "./client/components/RegisterModal";
 import { Home } from "./client/View";
 import { Login } from "./client/View";
 import 'react-toastify/dist/ReactToastify.css';
+import RecipeDetailModal from "./client/components/RecipeDetailModal";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         pauseOnHover
         theme="light"
       />}
+      <RecipeDetailModal />
       <ItemDetailModal />
       <LoginModal />
       <RegisterModal />

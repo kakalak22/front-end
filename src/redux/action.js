@@ -39,6 +39,12 @@ const toggleLoginModalStart = (status) => ({
     type: types.TOGGLE_LOGIN_MODAL,
     payload: status
 })
+
+const toggleRecipeDetailModalStart = (status) => ({
+    type: types.TOGGLE_RECIPE_DETAIL_MODAL,
+    payload: status
+})
+
 const toggleRegisterModalStart = (status) => ({
     type: types.TOGGLE_REGISTER_MODAL,
     payload: status
@@ -49,8 +55,13 @@ const logoutAccountStart = () =>({
     payload: false
 })
 
-const setAccountStart = (user) => ({
+const setAccountStart = (recipe) => ({
     type: types.SET_ACCOUNT_START,
+    payload: recipe
+})
+
+const setRecipeStart = (user) => ({
+    type: types.SET_RECIPE_START,
     payload: user
 })
 
@@ -65,9 +76,16 @@ export function toggleLoginModal(status) {
         dispatch(toggleLoginModalStart(status));
     }
 }
+
 export function toggleRegisterModal(status) {
     return function (dispatch) {
         dispatch(toggleRegisterModalStart(status));
+    }
+}
+
+export function toggleRecipeDetailModal(status) {
+    return function (dispatch) {
+        dispatch(toggleRecipeDetailModalStart(status));
     }
 }
 
@@ -107,5 +125,10 @@ export function logoutAccount(){
 export function setAccount(user){
     return function (dispatch) {
         dispatch(setAccountStart(user));
+    }
+}
+export function setRecipe(recipe){
+    return function (dispatch) {
+        dispatch(setRecipeStart(recipe));
     }
 }

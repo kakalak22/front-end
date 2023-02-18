@@ -19,7 +19,7 @@ const ItemListRecipes = () => {
     setIsLoading(true)
     const timeoutId = setTimeout(() => {
       loadRecipes()
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timeoutId);
   }, [currentItemNum])

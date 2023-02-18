@@ -4,8 +4,10 @@ const initialState = {
     isItemDetailModalShow: false,
     isLoginModalShow: false,
     isRegisterModalShow: false,
-    user: {},
+    isRecipeDetailModalShow: false,
     registerLoading: false,
+    user: {},
+    recipe: {}
 };
 
 const postReducer = (state = initialState, action) => {
@@ -24,6 +26,16 @@ const postReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isRegisterModalShow: action.payload
+            }
+        case types.TOGGLE_RECIPE_DETAIL_MODAL:
+            return {
+                ...state,
+                isRecipeDetailModalShow: action.payload,
+            }
+        case types.SET_RECIPE_START:
+            return{
+                ...state,
+                recipe: action.payload
             }
         case types.REGISTER_START:
             return {

@@ -1,0 +1,56 @@
+@import "../../../styles/variables";
+
+.recipe-heading-wrapper {
+    background-color: $header_color !important;
+    border-bottom: none !important;
+    font-weight: 700 !important;
+    // text-align: center;
+    color: #ffff !important;
+
+    .recipe-modal-title-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+.recipe-modal-body{
+    display: flex;
+    gap:20px;
+    width: 100% !important;
+
+    .image-container{
+        width: 50%;
+    }
+    .description-container{
+        width: 50%;
+    }
+}
+
+
+.recipe-label{
+    font-size: larger;
+    font-weight: 500;
+    color: $main_color
+}
+
+.recipe-row-wrapper{
+    display: flex;
+    align-items: baseline;
+}
+
+@media screen and (max-width: 1200px) {
+    .recipe-modal-body{
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        width: 100% !important;
+    
+        .image-container{
+            width: 100%;
+        }
+        .description-container{
+            width: 100%;
+        }
+    }
+}
