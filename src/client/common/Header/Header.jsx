@@ -1,19 +1,23 @@
-import React, { useState } from "react";
-import { Button, Col, Container, Nav, NavDropdown, Row } from "react-bootstrap";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Col, Container, Nav, NavDropdown, Row, Image, OverlayTrigger, Popover } from "react-bootstrap";
 import "./Header.scss";
 import { logo } from "../../../assets";
 import Hamburger from "hamburger-react";
 import { useLocation, Outlet } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import OverlayNav from "../OverlayNav";
-import { useDispatch } from "react-redux";
-import { toggleLoginModal } from "../../../redux/action";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccount, toggleLoginModal } from "../../../redux/action";
+import PopoverUser from "./PopoverUser";
+
+
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
-  const [isDropDownClicked, setIsDropDownClicked] = useState(false);
+  const {user} = useSelector(state => ({ ...state.data }) );
+  console.log("user",user)
   const dispatch = useDispatch();
-  const handleShowLoginModal = () =>{
+  const handleShowLoginModal = () => {
     dispatch(toggleLoginModal(true));
   }
   let location = useLocation();
@@ -23,6 +27,11 @@ const Header = () => {
     { to: "/Link2", name: "Link2" },
     { to: "/Link3", name: "Link3" },
   ];
+
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem('user'));
+    dispatch(setAccount(user));
+  },[])
 
   return (
     <React.Fragment>
@@ -77,9 +86,22 @@ const Header = () => {
                 rounded
               />
             </div>
-            <Button className="signup-btn" variant="primary" onClick={handleShowLoginModal}>
-              Login
-            </Button>
+            {user?.image ?
+              <div >
+                <OverlayTrigger
+                  trigger="click"
+                  placement='bottom-end'
+                  overlay={<PopoverUser data={user} />}
+                >
+                  <Image style={{ borderRadius: '100%', cursor:"pointer" }} width={30} height={30} src={user.image} />
+                </OverlayTrigger>
+              </div>
+              :
+              // TODO: Add processing to button
+              <Button className="signup-btn" variant="primary" onClick={handleShowLoginModal}>
+                Login/Register
+              </Button>
+            }
           </Col>
         </Row>
         <Outlet />

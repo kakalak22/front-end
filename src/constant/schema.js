@@ -7,11 +7,9 @@ export const loginSchema = yup.object().shape({
   email: yup.string()
     .email('Invalid email address')
     .required('Email is required'),
-  password: yup.string()
-    .required('Password is required'),
-  first_name: yup.string()
+  firstName: yup.string()
     .required('First name is required'),
-  last_name: yup.string()
+  lastName: yup.string()
     .required('Last name is required'),
   phone: yup.string()
     .matches(/^[0-9]{10}$/, 'Phone number must be 10 digits')
@@ -22,7 +20,7 @@ export const loginSchema = yup.object().shape({
     .max(new Date(Date.now() - 6 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 6 years old')
     .required('Birth date is required'),
   password: yup.string()
+    .required('Password is required')
     .min(6, 'Password must be at least 6 characters')
     .matches(/^(?=.*[A-Z])(?=.*[0-9]).+$/, 'Password must contain at least one uppercase letter and one number')
-    .required('Password is required'),
 });

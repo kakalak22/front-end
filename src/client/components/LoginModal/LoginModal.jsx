@@ -7,7 +7,6 @@ import { toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
 import "./LoginModal.scss";
 
 const LoginModal = () => {
-    const [errorMessage, setErrorMessage] = useState("");
     const dispatch = useDispatch();
     const { isLoginModalShow } = useSelector(state => ({ ...state.data }));
     const handleShow = () => {

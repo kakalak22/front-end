@@ -1,24 +1,74 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
-import { Button, Form, InputGroup, Modal, Stack } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Image, InputGroup, Modal, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSchema } from '../../../constant/schema';
-import { toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
+import { registerAccount, toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
 import './RegisterModal.scss';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
+import { v4 as uuidv4 } from "uuid";
+import { storage } from '../../../firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import axios from 'axios';
+
+const avaDefaultUrl = "https://anhdep123.com/wp-content/uploads/2021/05/anh-avatar-trang.jpg";
 
 const RegisterModal = () => {
-    const [isPasswordShow, setIsPasswordShow] = useState(false);
+    const [isPasswordShow, setIsPasswordShow ] = useState(false);
+    const [imageUrl, setImageUrl] = useState(avaDefaultUrl);
     const dispatch = useDispatch();
-    const { isRegisterModalShow } = useSelector(state => ({ ...state.data }));
+    const { isRegisterModalShow, user, registerFailed } = useSelector(state => ({ ...state.data }));
+    // const {setFieldValue} = useFormik();
+    console.log(registerFailed)
+
+    const handleRegister = async (body) => {
+        const data = await axios.post(`http://localhost:8080/accounts/`, body);
+        if(data?.status===201){
+            console.log('success')
+        }
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            username: '',
+            firstName: '',
+            lastName: '',
+            dob: '',
+            gender: '',
+            phone: '',
+            image: imageUrl,
+        },
+        validationSchema: loginSchema,
+        onSubmit: values => {
+            console.log(values);
+            const account = { ...values, role: 'User', status: 'Active' }
+            // handleRegister(account)
+            dispatch(registerAccount(account));
+        },
+    });
+
+    const uploadImage = (file) => {
+        const imageRef = ref(storage, `images/${file.name + uuidv4()}`);
+        uploadBytes(imageRef, file).then((snapshot) => {
+            getDownloadURL(snapshot.ref)
+                .then((url) => {
+                    setImageUrl(url);
+                    formik.setFieldValue('image', url)
+
+                })
+                .catch((error) => console.log(error));
+        });
+    };
+
     const handleShow = () => {
         dispatch(toggleLoginModal(true));
         dispatch(toggleRegisterModal(false))
     }
+
     const handleClose = () => {
-        dispatch(toggleLoginModal(false));
+        dispatch(toggleRegisterModal(false));
     }
 
     const handleLoginClicked = () => {
@@ -29,26 +79,17 @@ const RegisterModal = () => {
         setIsPasswordShow(prevState => !prevState);
     }
 
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-            username: '',
-            first_name: '',
-            last_name: '',
-            dob: '',
-            gender: '',
-            phone: ''
-        },
-        validationSchema: loginSchema,
-        onSubmit: values => {
-            console.log(values);
-        },
-    });
+    const handleInputImage = (e) => {
+        uploadImage(e.target.files[0]);
+    }
+
+    useEffect(()=>{
+        handleClose()
+    },[user])
 
     return (
         <>
-            <Modal show={isRegisterModalShow} onHide={handleClose} centered>
+            <Modal show={isRegisterModalShow} onHide={handleClose} centered >
                 <Form onSubmit={formik.handleSubmit}>
                     <Modal.Header className='heading-wrapper'>
                         <Modal.Title className='login-modal-title-wrapper' >
@@ -56,9 +97,9 @@ const RegisterModal = () => {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className='form-field-wrapper'>
+                        <div className='form-field-wrapper-long'>
                             <Form.Group className='mb-3' controlId='formBasicUsername'>
-                                <Form.Label>Username</Form.Label>
+                                <Form.Label>Username <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder='Username'
@@ -67,22 +108,26 @@ const RegisterModal = () => {
                                     onChange={formik.handleChange}
                                     isInvalid={formik.touched.username && !!formik.errors.username}
                                 />
-                                <Form.Control.Feedback type='invalid'>
+                                <Form.Control.Feedback type='invalid' >
                                     {formik.errors.username}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
+
+                        </div>
+                        <div className="form-field-wrapper-long">
                             <Form.Group className='mb-3' controlId='formBasicPassword'>
-                                <Form.Label>Password</Form.Label>
+                                <Form.Label>Password <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <InputGroup>
                                     <Button
-                                        variant='outline-secondary'
-                                        className='btn-show-password'
+                                        variant={!formik?.errors?.password ? 'outline-secondary' : 'outline-danger'}
+                                        className={!formik?.errors?.password ? 'btn-show-password' : 'btn-show-password-error'}
                                         onClick={handleShowPassword}
                                     >
                                         {isPasswordShow ? <IoEyeSharp /> : <IoEyeOffSharp />}
                                     </Button>
                                     <Form.Control
+                                        className='password-input'
                                         type={isPasswordShow ? 'text' : 'password'}
                                         placeholder='Password'
                                         name='password'
@@ -90,49 +135,49 @@ const RegisterModal = () => {
                                         onChange={formik.handleChange}
                                         isInvalid={formik.touched.password && !!formik.errors.password}
                                     />
+                                    <Form.Control.Feedback type='invalid' >
+                                        {formik.errors.password}
+                                    </Form.Control.Feedback>
+
                                 </InputGroup>
-                                <Form.Control.Feedback type='invalid'>
-                                    {formik.errors.password}
-                                </Form.Control.Feedback>
                             </Form.Group>
                         </div>
-
                         <div className='form-field-wrapper'>
                             <Form.Group className='mb-3' controlId='formBasicFirstName'>
-                                <Form.Label>First Name</Form.Label>
+                                <Form.Label>First Name <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder='First Name'
-                                    name='first_name'
-                                    value={formik.values.first_name}
+                                    name='firstName'
+                                    value={formik.values.firstName}
                                     onChange={formik.handleChange}
-                                    isInvalid={formik.touched.first_name && !!formik.errors.first_name}
+                                    isInvalid={formik.touched.firstName && !!formik.errors.firstName}
                                 />
                                 <Form.Control.Feedback type='invalid'>
-                                    {formik.errors.first_name}
+                                    {formik.errors.firstName}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='mb-3' controlId='formBasicLastName'>
-                                <Form.Label>Last Name</Form.Label>
+                                <Form.Label>Last Name <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder='Last Name'
-                                    name='last_name'
-                                    value={formik.values.last_name}
+                                    name='lastName'
+                                    value={formik.values.lastName}
                                     onChange={formik.handleChange}
-                                    isInvalid={formik.touched.last_name && !!formik.errors.last_name}
+                                    isInvalid={formik.touched.lastName && !!formik.errors.lastName}
                                     style={{ width: '236px' }}
                                 />
                                 <Form.Control.Feedback type='invalid'>
-                                    {formik.errors.last_name}
+                                    {formik.errors.lastName}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </div>
 
                         <div className='form-field-wrapper-long'>
                             <Form.Group className='mb-3' controlId='formBasicEmail'>
-                                <Form.Label>Email address</Form.Label>
+                                <Form.Label>Email address <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='email'
                                     placeholder='Enter email'
@@ -149,7 +194,7 @@ const RegisterModal = () => {
 
                         <div className='form-field-wrapper-long'>
                             <Form.Group className='mb-3' controlId='formBasicDob'>
-                                <Form.Label>Day of Birth</Form.Label>
+                                <Form.Label>Day of Birth <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='date'
                                     placeholder='Day of Birth'
@@ -166,7 +211,7 @@ const RegisterModal = () => {
 
                         <div className='form-field-wrapper-long'>
                             <Form.Group className='mb-3' controlId='formBasicPhone'>
-                                <Form.Label>Phone</Form.Label>
+                                <Form.Label>Phone <span style={{ color: 'red' }}>*</span> </Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder='Phone'
@@ -182,7 +227,7 @@ const RegisterModal = () => {
                         </div>
 
                         <div className='form-field-wrapper-long'>
-                            <Form.Label>Gender</Form.Label>
+                            <Form.Label>Gender <span style={{ color: 'red' }}>*</span> </Form.Label>
 
                             <Form.Group className='mb-3' controlId='formBasicGender'>
                                 <Form.Check
@@ -209,12 +254,21 @@ const RegisterModal = () => {
                                     {formik.errors.gender}
                                 </Form.Control.Feedback>
                             </Form.Group>
+                            <div className="form-field-wrapper-long" style={{ padding: 0, marginBottom: 10 }}>
+                                <Form.Label>Profile picture </Form.Label>
+                                <Form.Group controlId="formFile" className="mb-3" style={{ width: '100%' }}>
+                                    <Form.Control type="file" name="file" onChange={handleInputImage} />
+                                </Form.Group>
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                    <Image src={imageUrl} width={150} height={150} />
+                                </div>
+                            </div>
                         </div>
 
 
                         {/* <Form.Group className='mb-3' controlId='formBasicCheckbox'>
                             <Form.Check type='checkbox' label='Check me out' />
-                        </Form.Group> */}
+                        </Fo rm.Group> */}
                         <p>Already have account? Login <Button variant='link' className='link-btn' onClick={handleLoginClicked}>here</Button> </p>
                     </Modal.Body>
                     <Modal.Footer>

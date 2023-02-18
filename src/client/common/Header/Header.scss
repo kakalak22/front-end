@@ -152,8 +152,10 @@
       }
 
       &:active{
-        background-color: $main_color_hover;
+        background-color: $main_color_hover !important;
       }
+
+      
     }
   }
 }

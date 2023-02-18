@@ -1,21 +1,33 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Stack } from 'react-bootstrap'
+import { Button, Container, Spinner, Stack } from 'react-bootstrap'
 import { ItemCard } from '../../common'
 import './ItemList.scss';
 
 const ItemListRecipes = () => {
-  const dummyData = [1, 2, 3, 4, 5, 6]
   const [recipes, setRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentItemNum, setCurrentItemNum] = useState(3);
 
   const loadRecipes = async () => {
     const result = await axios.get("http://localhost:8080/recipes/");
-    setRecipes(result.data.slice(0, 6));
+    setRecipes(result.data.slice(0, currentItemNum));
+    setIsLoading(false)
   };
 
-  useEffect(()=>{
-    loadRecipes()
-  },[])
+  useEffect(() => {
+    setIsLoading(true)
+    const timeoutId = setTimeout(() => {
+      loadRecipes()
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentItemNum])
+
+  if (recipes.length < 1)
+    return <Container style={{display:'flex', justifyContent: 'center', padding: '50px'}}>
+      <Spinner animation="border" role="status" style={{ width: 50, height: 50, color:"#f54748" }} />
+    </Container>
 
   return (
     <Container>
@@ -27,8 +39,8 @@ const ItemListRecipes = () => {
       <Container className='load-more-wrapper'>
         <Stack>
 
-          <Button className='load-more-btn'>
-            Load More
+          <Button className='load-more-btn' onClick={() => setCurrentItemNum(prevState => prevState + 3)}>
+          {isLoading && <Spinner animation="border" role="status" style={{ width: 20, height: 20 }} />}Load More
           </Button>
         </Stack>
       </Container>

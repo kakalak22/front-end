@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel, Categories, GetMeal } from "../../components";
 import CartButton from "../../components/CartButton";
 import Feedback from "../../components/Feedback";
@@ -38,12 +38,17 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       <Carousel />
-      <GetMeal />
-      <Categories/>
-      <ItemListRecipes/>
-      <ItemListIngredents/>
-      <Feedback/>
-      {showButton && <CartButton/>}
+      {/* <GetMeal /> */}
+      <div className="title-wrapper">
+        <h2>Recipes</h2>
+      </div>
+      <ItemListRecipes />
+      <div className="title-wrapper">
+        <h2>Ingredient</h2>
+      </div>
+      <ItemListIngredents />
+      <Feedback />
+      {showButton && <CartButton />}
     </div>
   );
 };

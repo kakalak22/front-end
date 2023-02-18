@@ -1,5 +1,6 @@
 import * as types from "../constant/actionType";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const fetchPostStart = () => ({
     type: types.FETCH_POST_START
@@ -12,53 +13,99 @@ const fetchPostSuccess = (posts) => (
     }
 )
 
-const fetchPostFail = (error) => ({
-    type: types.FETCH_POST_FAIL,
+const registerFail = (error) => ({
+    type: types.REGISTER_FAIL,
     payload: error
 })
+
+const registerStart = () => ({
+    type: types.REGISTER_START
+})
+
+const registerSuccess = (posts) => (
+    {
+        type: types.REGISTER_SUCCESS,
+        payload: posts
+    }
+)
+
 
 const toggleItemModalStart = (status) => ({
     type: types.TOGGLE_ITEM_MODAL,
     payload: status
 })
 
-const toggleLoginModalStart = (status) =>({
+const toggleLoginModalStart = (status) => ({
     type: types.TOGGLE_LOGIN_MODAL,
     payload: status
 })
-const toggleRegisterModalStart = (status) =>({
+const toggleRegisterModalStart = (status) => ({
     type: types.TOGGLE_REGISTER_MODAL,
     payload: status
 })
 
-export function toggleItemModal(status){
-    return function (dispatch){
+const logoutAccountStart = () =>({
+    type: types.LOGOUT_START,
+    payload: false
+})
+
+const setAccountStart = (user) => ({
+    type: types.SET_ACCOUNT_START,
+    payload: user
+})
+
+export function toggleItemModal(status) {
+    return function (dispatch) {
         dispatch(toggleItemModalStart(status));
     }
 }
 
-export function toggleLoginModal(status){
-    return function (dispatch){
+export function toggleLoginModal(status) {
+    return function (dispatch) {
         dispatch(toggleLoginModalStart(status));
     }
 }
-export function toggleRegisterModal(status){
-    return function (dispatch){
+export function toggleRegisterModal(status) {
+    return function (dispatch) {
         dispatch(toggleRegisterModalStart(status));
     }
 }
 
-export function fetchPost() {
+
+export function registerAccount(body) {
     return function (dispatch) {
-        dispatch(fetchPostStart());
-        axios.get("https://jsonplaceholder.typicode.com/posts/1/comments")
+        dispatch(registerStart());
+        axios.post(`http://localhost:8080/accounts/`, body)
             .then((response) => {
-                const posts = response.data;
-                dispatch(fetchPostSuccess(posts));
+                const user = response.data;
+                dispatch(registerSuccess(user));
+                localStorage.setItem('user', JSON.stringify(user))
             })
             .catch((error) => {
-                dispatch(fetchPostFail(error.message));
+                dispatch(registerFail('Username already taken, choose another username'));
+                toast.error('Username or Email existed, choose another', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
             })
     }
 }
 
+export function logoutAccount(){
+    return function (dispatch){
+        dispatch(logoutAccountStart());
+        localStorage.removeItem('user');
+    }
+}
+
+export function setAccount(user){
+    return function (dispatch) {
+        dispatch(setAccountStart(user));
+    }
+}

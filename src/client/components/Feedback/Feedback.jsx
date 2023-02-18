@@ -8,7 +8,7 @@ const Feedback = () => {
         <Container className='feedback-container'>
             <Row>
                 <Col>
-                    <img src={feedback} alt="" />
+                    <img src={feedback} width='90%' alt="" />
                 </Col>
                 <Col className='text-wrapper'>
                     <h1>What Customer say about us</h1>
