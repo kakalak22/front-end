@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const ItemCard = ({ data, type }) => {
   const dispatch = useDispatch();
-  
+
   const handleViewMore = () =>{
     dispatch(setRecipe(data))
     dispatch(toggleRecipeDetailModal(true));
@@ -24,12 +24,13 @@ const ItemCard = ({ data, type }) => {
       >
         <Card.Title style={{height: 50}}>{data.name}</Card.Title>
         <div>
+        {data.price ? <Card.Text style={{fontWeight: 600, fontSize:'15px'}}>${data.price}</Card.Text> : null}
           <Card.Text style={{height: 150}}>
             {subString(data.description,150)}
           </Card.Text>
         </div>
         {type === "add" ?
-          <Stack >
+          <Stack>
             <Button className='add-to-cart-btn'>Add to Cart</Button>
           </Stack> :
           <Stack >

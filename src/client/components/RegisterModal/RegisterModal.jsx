@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Image, InputGroup, Modal, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSchema } from '../../../constant/schema';
+import { registerSchema } from '../../../constant/schema';
 import { registerAccount, toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
 import './RegisterModal.scss';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
@@ -19,12 +19,10 @@ const RegisterModal = () => {
     const dispatch = useDispatch();
     const { isRegisterModalShow, user, registerFailed } = useSelector(state => ({ ...state.data }));
     // const {setFieldValue} = useFormik();
-    console.log(registerFailed)
 
     const handleRegister = async (body) => {
         const data = await axios.post(`http://localhost:8080/accounts/`, body);
         if(data?.status===201){
-            console.log('success')
         }
     }
 
@@ -40,9 +38,8 @@ const RegisterModal = () => {
             phone: '',
             image: imageUrl,
         },
-        validationSchema: loginSchema,
+        validationSchema: registerSchema,
         onSubmit: values => {
-            console.log(values);
             const account = { ...values, role: 'User', status: 'Active' }
             // handleRegister(account)
             dispatch(registerAccount(account));

@@ -8,7 +8,6 @@ import { toggleRecipeDetailModal } from '../../../redux/action';
 const RecipeDetailModal = () => {
   const dispatch = useDispatch();
   const { isRecipeDetailModalShow, recipe } = useSelector(state => ({ ...state.data }));
-  console.log(recipe)
   const handleShow = () => {
     dispatch(toggleRecipeDetailModal(true));
   }

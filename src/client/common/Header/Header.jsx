@@ -15,7 +15,6 @@ import PopoverUser from "./PopoverUser";
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const {user} = useSelector(state => ({ ...state.data }) );
-  console.log("user",user)
   const dispatch = useDispatch();
   const handleShowLoginModal = () => {
     dispatch(toggleLoginModal(true));

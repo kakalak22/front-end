@@ -5,7 +5,7 @@ const initialState = {
     isLoginModalShow: false,
     isRegisterModalShow: false,
     isRecipeDetailModalShow: false,
-    registerLoading: false,
+    isLoading: false,
     user: {},
     recipe: {}
 };
@@ -40,7 +40,7 @@ const postReducer = (state = initialState, action) => {
         case types.REGISTER_START:
             return {
                 ...state,
-                registerLoading: true,
+                isLoading: true,
 
             }
         case types.REGISTER_SUCCESS:
@@ -50,6 +50,22 @@ const postReducer = (state = initialState, action) => {
                 // isRegisterModalShow: false
             }
         case types.REGISTER_FAIL:
+            return{
+                ...state,
+            }
+        case types.LOGIN_START:
+            return {
+                ...state,
+                isLoading: true,
+
+            }
+        case types.LOGIN_SUCCESS:
+            return {
+                ...state,
+                user: action.payload,
+                isLoginModalShow: false
+            }
+        case types.LOGIN_FAIL:
             return{
                 ...state,
             }

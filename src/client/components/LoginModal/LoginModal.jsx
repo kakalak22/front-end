@@ -2,13 +2,14 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSchema } from '../../../constant/schema';
-import { toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
+import { loginSchema, registerSchema } from '../../../constant/schema';
+import { LoginAccount, toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
 import "./LoginModal.scss";
 
 const LoginModal = () => {
     const dispatch = useDispatch();
-    const { isLoginModalShow } = useSelector(state => ({ ...state.data }));
+    const { isLoginModalShow, user } = useSelector(state => ({ ...state.data }));
+    
     const handleShow = () => {
         dispatch(toggleLoginModal(true));
     }
@@ -23,12 +24,13 @@ const LoginModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            username: '',
             password: '',
         },
         validationSchema: loginSchema,
         onSubmit: values => {
-            console.log(values);
+            console.log(values)
+            dispatch(LoginAccount(values))
         },
     });
     
@@ -43,17 +45,17 @@ const LoginModal = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
+                            <Form.Label>Username</Form.Label>
                             <Form.Control
-                                type="email"
-                                placeholder="Enter email"
-                                name="email"
-                                value={formik.values.email}
+                                type="username"
+                                placeholder="Enter username"
+                                name="username"
+                                value={formik.values.username}
                                 onChange={formik.handleChange}
-                                isInvalid={formik.touched.email && !!formik.errors.email}
+                                isInvalid={formik.touched.username && !!formik.errors.username}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {formik.errors.email}
+                                {formik.errors.username}
                             </Form.Control.Feedback>
                         </Form.Group>
 

@@ -30,6 +30,7 @@ const registerSuccess = (posts) => (
 )
 
 
+
 const toggleItemModalStart = (status) => ({
     type: types.TOGGLE_ITEM_MODAL,
     payload: status
@@ -89,11 +90,26 @@ export function toggleRecipeDetailModal(status) {
     }
 }
 
+const LoginFail = (error) => ({
+    type: types.LOGIN_FAIL,
+    payload: error
+})
+
+const LoginStart = () => ({
+    type: types.LOGIN_START
+})
+
+const LoginSuccess = (user) => (
+    {
+        type: types.LOGIN_SUCCESS,
+        payload: user
+    }
+)
 
 export function registerAccount(body) {
     return function (dispatch) {
         dispatch(registerStart());
-        axios.post(`http://localhost:8080/accounts/`, body)
+        axios.post(`http://localhost:8080/accounts`, body)
             .then((response) => {
                 const user = response.data;
                 dispatch(registerSuccess(user));
@@ -102,6 +118,58 @@ export function registerAccount(body) {
             .catch((error) => {
                 dispatch(registerFail('Username already taken, choose another username'));
                 toast.error('Username or Email existed, choose another', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+            })
+    }
+}
+export function LoginAccount(body) {
+    console.log(body)
+    return function (dispatch) {
+        dispatch(LoginStart());
+        axios.post(`http://localhost:8080/loginUser`, body)
+            .then((response) => {
+                if(response.data)
+               { 
+                console.log(response)
+                const user = response.data;
+                dispatch(LoginSuccess(user));
+                localStorage.setItem('user', JSON.stringify(user))
+                toast.success('Logged In', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                }
+                else{
+                    dispatch(LoginFail);
+                    toast.error('Username or Password is wrong', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+                }
+            })
+            .catch((error) => {
+                dispatch(LoginFail());
+                toast.error('Username or Password is wrong', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
