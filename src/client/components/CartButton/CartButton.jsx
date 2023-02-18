@@ -3,10 +3,20 @@ import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import "./CartButton.scss";
 import {FaShoppingCart} from 'react-icons/fa';
 import { image1 } from '../../../assets';
+import { useCart } from 'react-use-cart';
 
 
 
 const CartButton = () => {
+  const {
+    isEmpty,
+    totalUniqueItems,
+    items,
+    updateItemQuantity,
+    removeItem,
+  } = useCart();
+
+  console.log(items)
 
   const popover = (
     <Popover id="popover-basic">

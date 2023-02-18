@@ -7,7 +7,8 @@ const initialState = {
     isRecipeDetailModalShow: false,
     isLoading: false,
     user: {},
-    recipe: {}
+    recipe: {},
+    cart: []
 };
 
 const postReducer = (state = initialState, action) => {

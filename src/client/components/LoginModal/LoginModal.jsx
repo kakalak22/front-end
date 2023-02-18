@@ -29,7 +29,6 @@ const LoginModal = () => {
         },
         validationSchema: loginSchema,
         onSubmit: values => {
-            console.log(values)
             dispatch(LoginAccount(values))
         },
     });

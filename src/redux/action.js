@@ -109,7 +109,7 @@ const LoginSuccess = (user) => (
 export function registerAccount(body) {
     return function (dispatch) {
         dispatch(registerStart());
-        axios.post(`http://localhost:8080/accounts`, body)
+        axios.post(`http://localhost:8080/accounts/`, body)
             .then((response) => {
                 const user = response.data;
                 dispatch(registerSuccess(user));
@@ -131,14 +131,14 @@ export function registerAccount(body) {
     }
 }
 export function LoginAccount(body) {
-    console.log(body)
+
     return function (dispatch) {
         dispatch(LoginStart());
         axios.post(`http://localhost:8080/loginUser`, body)
             .then((response) => {
                 if(response.data)
                { 
-                console.log(response)
+               
                 const user = response.data;
                 dispatch(LoginSuccess(user));
                 localStorage.setItem('user', JSON.stringify(user))

@@ -5,10 +5,11 @@ import './ItemCard.scss';
 import subString from '../../../utils/subString';
 import { setRecipe, toggleRecipeDetailModal } from '../../../redux/action';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCart } from 'react-use-cart';
 
 const ItemCard = ({ data, type }) => {
   const dispatch = useDispatch();
-
+  const {addItem} = useCart();
   const handleViewMore = () =>{
     dispatch(setRecipe(data))
     dispatch(toggleRecipeDetailModal(true));
@@ -31,7 +32,7 @@ const ItemCard = ({ data, type }) => {
         </div>
         {type === "add" ?
           <Stack>
-            <Button className='add-to-cart-btn'>Add to Cart</Button>
+            <Button className='add-to-cart-btn' onClick={()=>addItem(data)}>Add to Cart</Button>
           </Stack> :
           <Stack >
             <Button className='add-to-cart-btn' onClick={handleViewMore}>View More</Button>

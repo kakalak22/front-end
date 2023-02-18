@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Col, Container, Modal, Row } from 'react-bootstrap'
+import { Badge, Button, Col, Container, Modal, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import './RecipeDetailModal.scss';
 import { image1 } from '../../../assets';
@@ -34,19 +34,19 @@ const RecipeDetailModal = () => {
         </div>
         <Container className='description-container' >
           <Row className='recipe-row-wrapper'>
-            <Col xs={2}><p className='recipe-label'>Meal:</p></Col>
+            <Col xs={2}><Badge bg="info" >Meal:</Badge></Col>
             <Col xs={10}><p>{recipe.meal}</p></Col>
           </Row>
           <Row className='recipe-row-wrapper'>
-            <Col xs={2}><p className='recipe-label'>Calories:</p></Col>
+            <Col xs={2}><Badge bg="info">Calories:</Badge></Col>
             <Col xs={10}><p>{recipe.calories}</p></Col>
           </Row>
           <Row className='recipe-row-wrapper'>
-            <Col xs={12}><p className='recipe-label'>Description:</p></Col>
+            <Col xs={12}><Badge bg="info">Description:</Badge></Col>
             <Col xs={12}><p>{recipe.description}</p></Col>
           </Row>
           <Row className='recipe-row-wrapper'>
-            <Col xs={12}><p className='recipe-label'>Tutorial:</p></Col>
+            <Col xs={12}><Badge bg="info">Tutorial:</Badge></Col>
             <Col xs={12}><p>{recipe.tutorial}</p></Col>
           </Row>
         </Container>
