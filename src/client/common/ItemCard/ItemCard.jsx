@@ -1,4 +1,4 @@
-import { Stack } from 'react-bootstrap';
+import { Badge, Stack } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './ItemCard.scss';
