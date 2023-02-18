@@ -24,6 +24,8 @@
     }
     .description-container{
         width: 50%;
+        overflow-y: auto;
+        height: 450px;
     }
 }
 
