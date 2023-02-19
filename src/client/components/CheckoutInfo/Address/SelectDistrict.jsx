@@ -13,7 +13,6 @@ const SelectDistrict = ({  provinceId, setDistrict }) => {
       .get(`${apiEndpoint}p/${provinceId}`, {
         params: { depth: 2 },
       });
-    console.log(rdata);
     const districts = [];
     rdata?.data &&
       rdata.data.districts.forEach((district) => {

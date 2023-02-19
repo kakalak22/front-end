@@ -1,4 +1,4 @@
-import { useFormik } from 'formik';
+ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Image, InputGroup, Modal, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,6 +40,8 @@ const RegisterModal = () => {
         },
         validationSchema: registerSchema,
         onSubmit: values => {
+            console.log(values);
+            console.log(typeof values.dob)
             const account = { ...values, role: 'User', status: 'Active' }
             // handleRegister(account)
             dispatch(registerAccount(account));

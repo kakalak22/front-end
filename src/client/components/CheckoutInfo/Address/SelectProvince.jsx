@@ -7,7 +7,6 @@ const apiEndpoint = "https://provinces.open-api.vn/api/"
 
 const SelectProvince = ({setProvince}) => {
   const [provinces, setProvinces] = useState([]);
-
   const fetchProvinces = async () => {
     const rdata = await axios.get(apiEndpoint);
     const provinces = [];

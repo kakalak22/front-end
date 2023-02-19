@@ -22,9 +22,9 @@ const Header = () => {
   let location = useLocation();
   const links = [
     { to: "/", name: "Home" },
-    { to: "/Link1", name: "Link1" },
-    { to: "/Link2", name: "Link2" },
-    { to: "/Link3", name: "Link3" },
+    { to: "/Link1", name: "All Recipes" },
+    { to: "/Link2", name: "All Ingredients" },
+    // { to: "/Link3", name: "Link3" },
   ];
 
   useEffect(()=>{
@@ -57,7 +57,7 @@ const Header = () => {
                   {link.name}{" "}
                 </Nav.Link>
               ))}
-              <div className="dropdown-wrapper">
+              {/* <div className="dropdown-wrapper">
                 <NavDropdown title={"Dropdown"} id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
@@ -72,7 +72,7 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
                 <MdKeyboardArrowDown className={"dropdown-arrow"} />
-              </div>
+              </div> */}
             </Nav>
           </Col>
           <Col className="hamburger-button-wrapper" xs={3}>

@@ -13,7 +13,6 @@ const RecipeDetailModal = () => {
   const { setItems, } = useCart()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  console.log(data);
   const { isRecipeDetailModalShow, recipe } = useSelector(state => ({ ...state.data }));
 
   const loadData = async () => {

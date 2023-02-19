@@ -21,8 +21,6 @@ const CartButton = () => {
 
   const navigate = useNavigate()
 
-  console.log(items)
-
   const popover = (
     <Popover id="popover-basic">
       <Popover.Header as="h3" className='heading-wrapper' >My Cart</Popover.Header>

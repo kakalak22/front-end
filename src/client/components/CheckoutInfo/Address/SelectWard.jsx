@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 const apiEndpoint = "https://provinces.open-api.vn/api/"
 
 
-const SelectWard = ({  districtId }) => {
+const SelectWard = ({  districtId, setWard }) => {
   const [wards, setWards] = useState([]);
 
   const fetchWards = async () => {
@@ -25,6 +25,10 @@ const SelectWard = ({  districtId }) => {
       setWards(wards);
   };
 
+  const handleSelectChange = (e) =>{
+    setWard(JSON.parse(e.target.value));
+  }
+
   useEffect(() => {
     districtId && fetchWards();
   }, [districtId]);
@@ -33,9 +37,9 @@ const SelectWard = ({  districtId }) => {
     <>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Ward</Form.Label>
-        <Form.Select>
+        <Form.Select onChange={handleSelectChange}>
           {wards.map((ward) =>
-            <option key={ward.id} value={ward.value}>
+            <option key={ward.id} value={JSON.stringify(ward)}>
               {ward.label}
             </option> 
           )}  
