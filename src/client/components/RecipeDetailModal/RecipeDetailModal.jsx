@@ -6,8 +6,11 @@ import { image1 } from '../../../assets';
 import { toggleRecipeDetailModal } from '../../../redux/action';
 import axios from 'axios';
 import { useState } from 'react';
+import { useCart } from 'react-use-cart';
+import { toast } from 'react-toastify';
 
 const RecipeDetailModal = () => {
+  const { setItems, } = useCart()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   console.log(data);
@@ -18,7 +21,6 @@ const RecipeDetailModal = () => {
 
     if (result.data) {
       const newData = result.data.map(item => item.ingredient);
-      console.log(newData);
       setData(newData);
     }
   };
@@ -30,9 +32,23 @@ const RecipeDetailModal = () => {
     dispatch(toggleRecipeDetailModal(false));
   }
 
+  const handleAddAll = () => {
+    setItems(data);
+    toast.success(`Added ${data.length} ingredients to Cart`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
+  }
+
   useEffect(() => {
     loadData();
-
   }, [])
 
   return (
@@ -68,9 +84,9 @@ const RecipeDetailModal = () => {
             <Col xs={12}><Badge bg="info">Tutorial:</Badge></Col>
             <Col xs={12}><p>{recipe.tutorial}</p></Col>
           </Row>
-          {data.length > 0 && data.map((item, index) => 
+          {data.length > 0 && data.map((item, index) =>
             <Row className='recipe-row-wrapper' key={index}>
-              <Col xs={2}><Badge bg="info">Ingredient {index}:</Badge></Col>
+              <Col xs={2}><Badge bg="info">Ingredient {index + 1}:</Badge></Col>
               <Col xs={10}><p>{item.name}</p></Col>
             </Row>
           )}
@@ -80,8 +96,8 @@ const RecipeDetailModal = () => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button className="btn-login" variant="primary">
-          Submit
+        <Button className="btn-login" variant="primary" onClick={handleAddAll}>
+          Buy Ingredients
         </Button>
       </Modal.Footer>
     </Modal>
