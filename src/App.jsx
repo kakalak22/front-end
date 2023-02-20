@@ -17,7 +17,7 @@ import Checkout from "./client/View/Checkout/Checkout";
 
 function App() {
   const [showButton, setShowButton] = useState(false);
-  const location = useLocation();
+  let location = useLocation();
   useEffect(() => {
     function handleScroll() {
       // Get the current scroll position
@@ -44,7 +44,7 @@ function App() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [location]);
   return (
     <div style={{position:'relative'}}>
       {showButton && <CartButton />}

@@ -3,13 +3,24 @@
 .checkout-tabs {
   display: flex;
   justify-content: center;
-
+  border-bottom: none !important;
   .nav-item{
-    background-color: $main_color;
+    border-radius: 10px;
+    .nav-link.active{
+      background-color: $main_color;
+      color: white;
+      border-radius: 10px;
+    }
+    .nav-link{
+      background-color: $main_color_hover;
+      color: white;
+      border-radius: 10px;
+    }
   }
 }
 
 .checkout-wrapper {
+  border-radius: 15px;
   padding: 50px;
   background-color: white;
   box-shadow: 0px 0px 15px 4px rgba(0, 0, 0, 0.53);

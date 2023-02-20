@@ -17,8 +17,8 @@ const CheckoutList = ({setKey}) => {
     const navigate = useNavigate();
     return (
         <Container
-            style={{ padding: '20px' }}>
-            <h1 style={{textAlign:'center'}}>My Cart</h1>
+            style={{ padding: '50px' }}>
+            <h2 style={{textAlign:'center'}}>My Cart</h2>
             <Container className='checkout-container'>
                 {isEmpty &&
                     <Container
@@ -66,7 +66,7 @@ const CheckoutList = ({setKey}) => {
                     </Container>
                 )}
                 {!isEmpty && <Container className='total-container'>
-                    <h3 style={{display:'flex', alignItems:'flex-end', gap: '20px'}}><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
+                    <h3 style={{margin:0,display:'flex', alignItems:'flex-end', gap: '20px'}}><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
                     <Button className='checkout-btn' onClick={()=>setKey(2)}>Checkout</Button>
                 </Container>}
             </Container>

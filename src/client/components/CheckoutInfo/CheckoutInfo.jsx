@@ -135,9 +135,11 @@ const CheckoutInfo = () => {
         </Container>
         <Container className='checkout-items-wrapper'>
           {items.map((item) =>
-            <Container className='checkout-list-wrapper'>
+            <Container className='checkout-list-wrapper' style={{gap:'50px'}}>
               <div className='checkout-image-container'>
-                <img src={item.image} alt="" width='100%' height='100%' />
+                <img src={item.image} alt="" width='100' height='100' />
+                <Badge className='quantity-badge' >{item.quantity}</Badge>
+
               </div>
               <div className='checkout-info-container'>
                 <h4 style={{ margin: "0 !important" }}>{item.name}</h4>

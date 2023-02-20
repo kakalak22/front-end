@@ -15,6 +15,9 @@
     .checkout-image-container{
         width: 10%;
         height: 100%;
+        position: relative;
+
+       
     }
 
     .checkout-info-container{
@@ -35,7 +38,11 @@
         }
     }
 
-   
+    .quantity-badge{
+        position: absolute;
+        top: 0;
+        right: -50px;
+    }
 
     .button-modify-container{
         display: flex;
