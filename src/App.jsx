@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { Footer, Header, OverlayNav } from "./client/common";
@@ -17,7 +17,7 @@ import Checkout from "./client/View/Checkout/Checkout";
 
 function App() {
   const [showButton, setShowButton] = useState(false);
-
+  const location = useLocation();
   useEffect(() => {
     function handleScroll() {
       // Get the current scroll position
@@ -30,6 +30,9 @@ function App() {
       if (scrollPosition >= showAtHeight) {
         setShowButton(true);
       } else {
+        setShowButton(false);
+      }
+      if(location?.pathname==='/checkout'){
         setShowButton(false);
       }
     }

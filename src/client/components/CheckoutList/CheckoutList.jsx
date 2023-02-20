@@ -6,7 +6,7 @@ import { useCart } from 'react-use-cart';
 import { emptyCart, image1 } from '../../../assets';
 import './CheckoutList.scss';
 
-const CheckoutList = () => {
+const CheckoutList = ({setKey}) => {
     const {
         isEmpty,
         items,
@@ -18,7 +18,7 @@ const CheckoutList = () => {
     return (
         <Container
             style={{ padding: '20px' }}>
-            <h1>Checkout Page</h1>
+            <h1 style={{textAlign:'center'}}>My Cart</h1>
             <Container className='checkout-container'>
                 {isEmpty &&
                     <Container
@@ -66,8 +66,8 @@ const CheckoutList = () => {
                     </Container>
                 )}
                 {!isEmpty && <Container className='total-container'>
-                    <h3><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
-                    <Button className='checkout-btn'>Checkout</Button>
+                    <h3 style={{display:'flex', alignItems:'flex-end', gap: '20px'}}><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
+                    <Button className='checkout-btn' onClick={()=>setKey(2)}>Checkout</Button>
                 </Container>}
             </Container>
         </Container>
