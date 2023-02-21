@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       <Carousel />
-      {/* <GetMeal /> */}
+      <GetMeal />
       <div className="title-wrapper">
         <h2>Recipes</h2>
       </div>

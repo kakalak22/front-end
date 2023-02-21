@@ -26,7 +26,7 @@ const paymentTypes = [
 
 const CheckoutInfo = () => {
   const [province, setProvince] = useState({ id: 1 })
-  const [district, setDistrict] = useState({});
+  const [district, setDistrict] = useState({id:1});
   const [ward, setWard] = useState({});
   const [address, setAddress] = useState("");
   const [paymentType, setPaymentType] = useState("");
