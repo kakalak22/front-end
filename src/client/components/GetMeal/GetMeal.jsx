@@ -10,6 +10,10 @@ import "./GetMeal.scss";
 
 const GetMeal = () => {
   const [menu, setMenu] = useState([]);
+  const [breakfast, setBreakfast] = useState([]);
+  const [lunch, setLunch] = useState([]);
+  const [dinner, setDinner] = useState([]);
+  const [snack, setSnack] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -37,6 +41,17 @@ const GetMeal = () => {
 
     return () => clearTimeout(timeoutId);
   }, [isLoading])
+
+  useEffect(()=>{
+    const breakfast = menu.filter(item => item.meal === "Breakfast");
+    setBreakfast(breakfast);
+    const lunch = menu.filter(item => item.meal === "Lunch");
+    setLunch(lunch);
+    const dinner = menu.filter(item => item.meal === "Dinner");
+    setDinner(dinner);
+    const snack = menu.filter(item => item.meal === "Snack");
+    setSnack(snack);
+  },[menu])
 
   const handleViewRecipe = (data) => {
     dispatch(setRecipe(data))
@@ -81,12 +96,48 @@ const GetMeal = () => {
         <Spinner animation="border" role="status" style={{ width: 50, height: 50, color: "#f54748" }} />
       </Container>}
       {!isLoading && <Container>
-        {menu.map((recipe, index) =>
+        {breakfast.length > 0 && <h2 style={{marginBottom:'20px', textAlign:'start', marginLeft:'60px'}}><Badge bg="success">Breakfast</Badge></h2>}
+        {breakfast?.map((recipe, index) =>
           <Container key={index} style={{textAlign:'start', padding:' 0 50px'}}>
-            {index === 0 && <h2 style={{marginBottom:'20px'}}><Badge bg="success">Breakfast</Badge></h2>}
-            {index === 1 && <h2 style={{marginBottom:'20px'}}><Badge bg="success">Lunch</Badge></h2>}
-            {index === 2 && <h2 style={{marginBottom:'20px'}}><Badge bg="success">Dinner</Badge></h2>}
-            {index === 3 && <h2 style={{marginBottom:'20px'}}><Badge bg="success">Snack</Badge></h2>}
+            <Container  className="item-recipe" >
+              <img src={recipe.image} alt="" width={150} height={150} />
+              <Container className="item-recipe__info" >
+                <h3 onClick={() => handleViewRecipe(recipe)} >{recipe.name}</h3>
+                <p>Calories: <span>{recipe.calories}</span></p>
+                <p>{subString(recipe.tutorial, 250)}</p>
+              </Container>
+            </Container>
+          </Container>
+        )}
+        {lunch.length > 0 && <h2 style={{marginBottom:'20px', textAlign:'start', marginLeft:'60px'}}><Badge bg="success">Lunch</Badge></h2>}
+        {lunch?.map((recipe, index) =>
+          <Container key={index} style={{textAlign:'start', padding:' 0 50px'}}>
+            <Container  className="item-recipe" >
+              <img src={recipe.image} alt="" width={150} height={150} />
+              <Container className="item-recipe__info" >
+                <h3 onClick={() => handleViewRecipe(recipe)} >{recipe.name}</h3>
+                <p>Calories: <span>{recipe.calories}</span></p>
+                <p>{subString(recipe.tutorial, 250)}</p>
+              </Container>
+            </Container>
+          </Container>
+        )}
+        {dinner.length > 0 && <h2 style={{marginBottom:'20px', textAlign:'start', marginLeft:'60px'}}><Badge bg="success">Dinner</Badge></h2>}
+        {dinner?.map((recipe, index) =>
+          <Container key={index} style={{textAlign:'start', padding:' 0 50px'}}>
+            <Container  className="item-recipe" >
+              <img src={recipe.image} alt="" width={150} height={150} />
+              <Container className="item-recipe__info" >
+                <h3 onClick={() => handleViewRecipe(recipe)} >{recipe.name}</h3>
+                <p>Calories: <span>{recipe.calories}</span></p>
+                <p>{subString(recipe.tutorial, 250)}</p>
+              </Container>
+            </Container>
+          </Container>
+        )}
+        {snack.length > 0 && <h2 style={{marginBottom:'20px', textAlign:'start', marginLeft:'60px'}}><Badge bg="success">Snack</Badge></h2>}
+        {snack?.map((recipe, index) =>
+          <Container key={index} style={{textAlign:'start', padding:' 0 50px'}}>
             <Container  className="item-recipe" >
               <img src={recipe.image} alt="" width={150} height={150} />
               <Container className="item-recipe__info" >

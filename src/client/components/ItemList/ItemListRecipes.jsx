@@ -6,11 +6,13 @@ import './ItemList.scss';
 
 const ItemListRecipes = () => {
   const [recipes, setRecipes] = useState([]);
+  const [length, setLength] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [currentItemNum, setCurrentItemNum] = useState(3);
 
   const loadRecipes = async () => {
     const result = await axios.get("http://localhost:8080/recipes/");
+    setLength(result.data.length);
     setRecipes(result.data.slice(0, currentItemNum));
     setIsLoading(false)
   };
@@ -25,8 +27,8 @@ const ItemListRecipes = () => {
   }, [currentItemNum])
 
   if (recipes.length < 1)
-    return <Container style={{display:'flex', justifyContent: 'center', padding: '50px'}}>
-      <Spinner animation="border" role="status" style={{ width: 50, height: 50, color:"#f54748" }} />
+    return <Container style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}>
+      <Spinner animation="border" role="status" style={{ width: 50, height: 50, color: "#f54748" }} />
     </Container>
 
   return (
@@ -39,9 +41,18 @@ const ItemListRecipes = () => {
       <Container className='load-more-wrapper'>
         <Stack>
 
-          <Button className='load-more-btn' onClick={() => setCurrentItemNum(prevState => prevState + 3)}>
-          {isLoading && <Spinner animation="border" role="status" style={{ width: 20, height: 20 }} />}Load More
-          </Button>
+          {
+            length !== recipes.length &&
+            <Button className='load-more-btn'
+              onClick={() => setCurrentItemNum(prevState => prevState + 3)}
+            >
+              {isLoading && <Spinner
+                animation="border"
+                role="status"
+                style={{ width: 20, height: 20 }} />}
+              Load More
+            </Button>
+          }
         </Stack>
       </Container>
     </Container>

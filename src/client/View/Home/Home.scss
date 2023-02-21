@@ -1,3 +1,5 @@
+@import "../../../styles/variables";
+
 .home-wrapper {
   background-image: url("../../../assets/home/background.png");
   background-size: cover;
@@ -8,4 +10,10 @@
 
 .title-wrapper{
   padding: 20px;
+
+  h2{
+    color: $main_color;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
 }
