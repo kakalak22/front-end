@@ -10,7 +10,7 @@ import { useCart } from 'react-use-cart';
 import { toast } from 'react-toastify';
 
 const RecipeDetailModal = () => {
-  const { setItems, } = useCart()
+  const { setItems, addItem  } = useCart()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const { isRecipeDetailModalShow, recipe } = useSelector(state => ({ ...state.data }));
@@ -32,7 +32,9 @@ const RecipeDetailModal = () => {
   }
 
   const handleAddAll = () => {
-    setItems(data);
+    data.forEach((item)=>{
+      addItem(item);
+    })
     toast.success(`Added ${data.length} ingredients to Cart`,
       {
         position: "top-right",

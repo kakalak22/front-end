@@ -3,6 +3,7 @@ import { Container, Tab, Tabs } from 'react-bootstrap';
 import { useCart } from 'react-use-cart';
 import CheckoutInfo from '../../components/CheckoutInfo';
 import CheckoutList from '../../components/CheckoutList';
+import Payment from '../../components/Payment';
 import './Checkout.scss';
 
 const Checkout = () => {
@@ -25,7 +26,8 @@ const Checkout = () => {
           <Tab eventKey={2} title="Checkout Info" disabled={isEmpty}>
             <CheckoutInfo />
           </Tab>
-          <Tab eventKey="contact" title="Contact" disabled>
+          <Tab eventKey={3} title="Payment" disabled >
+            <Payment/>
           </Tab>
         </Tabs>
       </Container>

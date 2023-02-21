@@ -25,12 +25,12 @@ const paymentTypes = [
 ]
 
 const CheckoutInfo = () => {
-  const [province, setProvince] = useState({ id: 1 })
-  const [district, setDistrict] = useState({id:1});
-  const [ward, setWard] = useState({});
+  const [province, setProvince] = useState({ id: 1, value:"" })
+  const [district, setDistrict] = useState({id:1, value:"" });
+  const [ward, setWard] = useState({id:1, value:""});
   const [address, setAddress] = useState("");
-  const [paymentType, setPaymentType] = useState("");
-  const { isLoginModalShow, user } = useSelector(state => ({ ...state.data }));
+  const [paymentType, setPaymentType] = useState("COD");
+  const {  user } = useSelector(state => ({ ...state.data }));
   const { items, cartTotal,emptyCart } = useCart();
   const navigate = useNavigate();
 
@@ -85,9 +85,10 @@ const CheckoutInfo = () => {
 
   const handlePlaceOrder = () => {
     const date = moment().format();
+    const newAddress = province.value ?  `${address}, ${ward.value}, ${district.value}, ${province.value}` : address;
     const order = {
       status: "Verifying",
-      address: address,
+      address: newAddress,
       paymentType: paymentType,
       totalPrice: cartTotal,
       account: user,
