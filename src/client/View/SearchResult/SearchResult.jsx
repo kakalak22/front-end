@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Badge, Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
@@ -23,24 +23,27 @@ const SearchResult = () => {
   const [ingredientsSearchResult, setIngredientsSearchResult] = useState([]);
   const [isRecipesSearchLoading, setIsRecipesSearchLoading] = useState(false);
   const [isIngredientsSearchLoading, setIsIngredientsSearchLoading] = useState(false);
+  const [recipesRef, setRecipesRef] = useState([]);
+  const [ingredientsRef, setIngredientsRef] = useState([]);
+
 
   const handleCaloriesFrom = (e) => {
-    e.target.value && setCaloriesFrom(Number.parseInt(e.target.value));
+    e?.target.value && setCaloriesFrom(Number.parseInt(e.target.value));
   }
   const handleCaloriesTo = (e) => {
-    e.target.value && setCaloriesTo(Number.parseInt(e.target.value));
+    e?.target.value && setCaloriesTo(Number.parseInt(e.target.value));
   }
   const handleIngredientCaloriesFrom = (e) => {
-    e.target.value && setIngredientCaloriesFrom(Number.parseInt(e.target.value));
+    e?.target.value && setIngredientCaloriesFrom(Number.parseInt(e.target.value));
   }
   const handleIngredientCaloriesTo = (e) => {
-    e.target.value && setIngredientCaloriesTo(Number.parseInt(e.target.value));
+    e?.target.value && setIngredientCaloriesTo(Number.parseInt(e.target.value));
   }
   const handleIngredientPriceFrom = (e) => {
-    e.target.value && setIngredientPriceFrom(Number.parseInt(e.target.value));
+    e?.target.value && setIngredientPriceFrom(Number.parseInt(e.target.value));
   }
   const handleIngredientPriceTo = (e) => {
-    e.target.value && setIngredientPriceTo(Number.parseInt(e.target.value));
+    e?.target.value && setIngredientPriceTo(Number.parseInt(e.target.value));
   }
 
   const handleSelectChange = (e) => {
@@ -56,6 +59,7 @@ const SearchResult = () => {
       `http://localhost:8080/recipes/search?keyword=${query}&column=name`
     );
     setRecipesSearchResult(result.data);
+    setRecipesRef(result.data);
     setIsRecipesSearchLoading(true);
     console.log(recipesSearchResult)
   }
@@ -65,7 +69,8 @@ const SearchResult = () => {
       `http://localhost:8080/ingredients/search?keyword=${query}&column=name`
     );
     setIngredientsSearchResult(result.data);
-    setIsSearchLoading(true);
+    setIngredientsRef(result.data);
+    setIsIngredientsSearchLoading(true);
     console.log(ingredientsSearchResult)
   }
 
@@ -80,21 +85,30 @@ const SearchResult = () => {
     },
   });
   useEffect(() => {
-    if (caloriesFrom < caloriesTo) {
-      const newRecipes = recipesSearchResult.filter((item) => {
-        const calo = Number.parseInt(item.calories)
-        return (calo >= caloriesFrom && calo <= caloriesTo)
+      const newRecipes = recipesRef.filter((item) => {
+        const calo = Number.parseInt(item.calories);
+        const caloMatch = (caloriesFrom < caloriesTo) ?  (calo >= caloriesFrom && calo <= caloriesTo) : true;
+        const mealMatch = meal==="all" ? true : meal === item.meal;
+        return caloMatch && mealMatch;
       })
+      // console.log(newRecipes)
       setIsRecipesSearchLoading(true);
       setRecipesSearchResult(newRecipes);
-    }
-  }, [caloriesFrom, caloriesTo])
+  }, [caloriesFrom, caloriesTo, meal])
 
   useEffect(() => {
-    if (ingredientCaloriesFrom < ingredientCaloriesTo) {
-      console.log("object");
-    }
-  }, [ingredientCaloriesFrom, ingredientCaloriesTo])
+    const newIngredients = ingredientsRef.filter((item) => {
+      const calo = Number.parseInt(item.calories);
+      const price = Number.parseInt(item.price);
+      const caloMatch = (ingredientCaloriesFrom < ingredientCaloriesTo) ?  (calo >= ingredientCaloriesFrom && calo <= ingredientCaloriesTo) : true;
+      const pirceMatch = (ingredientPriceFrom < ingredientPriceTo) ?  (price >= ingredientPriceFrom && price <= ingredientPriceTo) : true;
+      return caloMatch && pirceMatch;
+    })
+    // console.log(newIngredients)
+    setIsIngredientsSearchLoading(true);
+    setIngredientsSearchResult(newIngredients);
+    
+  }, [ingredientCaloriesFrom, ingredientCaloriesTo,ingredientPriceFrom, ingredientPriceTo])
 
   useEffect(() => {
     if (searchType === "all") {
@@ -147,19 +161,26 @@ const SearchResult = () => {
                 type='number'
                 placeholder='Calories to'
                 onChange={handleCaloriesTo}
-                min={0}
+                min={caloriesFrom}
                 value={caloriesTo}
               />
             </InputGroup>
             <InputGroup>
               <InputGroup.Text>Meal</InputGroup.Text>
               <Form.Select onChange={handleSelectChange}>
-                <option>All</option>
+                <option value="all">All</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
                 <option value="Dinner">Dinner</option>
                 <option value="Snack">Snack</option>
               </Form.Select>
+              <Button variant='secondary' onClick={()=>{
+                handleCaloriesFrom();
+                handleCaloriesTo();
+                setRecipesSearchResult(recipesRef);
+                }}>
+                Clear Filter
+              </Button>
             </InputGroup>
           </Container>
           <Container>
@@ -193,7 +214,7 @@ const SearchResult = () => {
                 type='number'
                 placeholder='Calories to'
                 onChange={handleIngredientCaloriesTo}
-                min={ingredientCaloriesFrom}
+                min={ingredientCaloriesFrom + 1 }
                 value={ingredientCaloriesTo}
               />
             </InputGroup>
@@ -210,9 +231,18 @@ const SearchResult = () => {
                 type='number'
                 placeholder='Price to'
                 onChange={handleIngredientPriceTo}
-                min={ingredientPriceFrom}
+                min={ingredientPriceFrom + 1}
                 value={ingredientPriceTo}
               />
+              <Button variant='secondary' onClick={()=>{
+                handleIngredientCaloriesFrom();
+                handleIngredientCaloriesTo();
+                handleIngredientPriceFrom();
+                handleIngredientPriceTo();
+                setIngredientsSearchResult(ingredientsRef);
+                }}>
+                Clear Filter
+              </Button>
             </InputGroup>
           </Container>
           <Container>

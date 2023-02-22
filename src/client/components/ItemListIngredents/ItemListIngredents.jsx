@@ -26,15 +26,15 @@ const ItemListIngredents = ({ingredientsSearchResult, isSearchLoading, setIsSear
         setLength(ingredientsSearchResult.length)
         setIsSearchLoading(false);
         setIsLoading(false);
-      }, 2000);
+      }, 1200);
     } else {
     setIsLoading(true)
     timeoutId = setTimeout(() => {
       loadIngredents()
-    }, 2000);
+    }, 1200);
   }
     return () => clearTimeout(timeoutId);
-  }, [currentItemNum])
+  }, [currentItemNum, ingredientsSearchResult])
 
   if (ingredents.length < 1 || isSearchLoading)
     return (

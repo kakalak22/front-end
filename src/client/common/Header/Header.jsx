@@ -92,7 +92,7 @@ const Header = () => {
                   placement='bottom-end'
                   overlay={<PopoverUser data={user} />}
                 >
-                  <Image style={{ borderRadius: '100%', cursor:"pointer" }} width={30} height={30} src={user.image} />
+                  <Image style={{ borderRadius: '100%', cursor:"pointer" }} width={60} height={60} src={user.image} />
                 </OverlayTrigger>
               </div>
               :

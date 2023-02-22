@@ -37,7 +37,7 @@ const GetMeal = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1200);
 
     return () => clearTimeout(timeoutId);
   }, [isLoading])

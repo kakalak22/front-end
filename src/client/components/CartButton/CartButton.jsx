@@ -26,8 +26,8 @@ const CartButton = () => {
       <Popover.Header as="h3" className='heading-wrapper' >My Cart</Popover.Header>
       <Popover.Body style={{maxHeight:'300px', overflowY: "auto"}}>
         {isEmpty && <h4>Your cart is empty</h4>}
-        {items.map((item) =>
-          <div className='item-wrapper'>
+        {items.map((item,index) =>
+          <div key={index} className='item-wrapper'>
             <img src={item.image} alt="" width={50} height={50} />
             <p className='item-name'>{subString(item.name, 15 )} x {item.quantity}</p>
             <p>${item.itemTotal}</p>

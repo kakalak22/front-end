@@ -26,12 +26,12 @@ const ItemListRecipes = ({ recipesSearchResult, isSearchLoading, setIsSearchLoad
         setLength(recipesSearchResult.length)
         setIsSearchLoading(false);
         setIsLoading(false)
-      }, 2000);
+      }, 1200);
     } else {
       setIsLoading(true)
       timeoutId = setTimeout(() => {
         loadRecipes()
-      }, 2000);
+      }, 1200);
     }
     return () => clearTimeout(timeoutId);
   }, [currentItemNum, recipesSearchResult])

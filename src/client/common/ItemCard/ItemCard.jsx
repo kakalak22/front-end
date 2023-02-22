@@ -17,12 +17,12 @@ const ItemCard = ({ data, type }) => {
   }
   return (
     <Card style={{ width: '300px' }} border="light" className='card-wrapper'>
-      <div>
+        <Badge className='badge-calo'>{data.calories} calo</Badge>
+        {data.meal && <Badge className='badge-meal' bg='success'>{data.meal}</Badge>}
         <Card.Img variant="top"
           width={270}
           height={200}
           src={data.image} />
-      </div>
       <Card.Body
       >
         <Card.Title aria-label={data.name} style={{ height: 50, color: '#f54748', fontWeight: 700 }}>{subString(data.name, 45)}</Card.Title>

@@ -1,12 +1,18 @@
 import React from 'react';
 import { Badge, Button, Container, Stack } from 'react-bootstrap';
 import { MdDelete } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useCart } from 'react-use-cart';
 import { emptyCart, image1 } from '../../../assets';
+import { toggleLoginModal } from '../../../redux/action';
 import './CheckoutList.scss';
 
-const CheckoutList = ({setKey}) => {
+const CheckoutList = ({ setKey }) => {
+    const { user } = useSelector((state) => ({ ...state.data }));
+    const dispatch = useDispatch();
+
     const {
         isEmpty,
         items,
@@ -15,10 +21,29 @@ const CheckoutList = ({setKey}) => {
         cartTotal
     } = useCart();
     const navigate = useNavigate();
+
+    const handleCheckout = () => {
+        if (user) {
+            setKey(2)
+        } else {
+            toast.error('Please log in to continue to Checkout page', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            dispatch(toggleLoginModal(true));
+        }
+    }
+
     return (
         <Container
             style={{ padding: '50px' }}>
-            <h2 style={{textAlign:'center'}}>My Cart</h2>
+            <h2 style={{ textAlign: 'center' }}>My Cart</h2>
             <Container className='checkout-container'>
                 {isEmpty &&
                     <Container
@@ -30,8 +55,8 @@ const CheckoutList = ({setKey}) => {
                             justifyContent: 'center',
                             flexDirection: 'column'
                         }}>
-                        <h2>No item in cart. Back to 
-                            <Button variant='link' onClick={()=>navigate('/')}>
+                        <h2>No item in cart. Back to
+                            <Button variant='link' onClick={() => navigate('/')}>
                                 <h2>Homepage</h2>
                             </Button>
                         </h2>
@@ -66,8 +91,8 @@ const CheckoutList = ({setKey}) => {
                     </Container>
                 )}
                 {!isEmpty && <Container className='total-container'>
-                    <h3 style={{margin:0,display:'flex', alignItems:'flex-end', gap: '20px'}}><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
-                    <Button className='checkout-btn' onClick={()=>setKey(2)}>Checkout</Button>
+                    <h3 style={{ margin: 0, display: 'flex', alignItems: 'flex-end', gap: '20px' }}><Badge bg='primary'>Total:</Badge>{cartTotal.toFixed(2)} </h3>
+                    <Button className='checkout-btn' onClick={handleCheckout}>Checkout</Button>
                 </Container>}
             </Container>
         </Container>
