@@ -6,13 +6,14 @@ import { Footer, Header, OverlayNav } from "./client/common";
 import ItemDetailModal from "./client/components/ItemDetailModal";
 import LoginModal from "./client/components/LoginModal";
 import RegisterModal from "./client/components/RegisterModal";
-import { Home } from "./client/View";
+import { Home, SearchResult } from "./client/View";
 import { Login } from "./client/View";
 import 'react-toastify/dist/ReactToastify.css';
 import RecipeDetailModal from "./client/components/RecipeDetailModal";
 import CartButton from "./client/components/CartButton";
 import { useEffect, useState } from "react";
 import Checkout from "./client/View/Checkout/Checkout";
+import SearchButton from "./client/components/SearchButton/SearchButton";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
   return (
     <div style={{position:'relative'}}>
       {showButton && <CartButton />}
+      {showButton && <SearchButton />}
 
       {<ToastContainer
         position="top-right"
@@ -69,8 +71,8 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
           <Route path="checkout" element={<Checkout/>}/>
+          <Route path="search" element={<SearchResult/>} />
         </Route>
       </Routes>
       <Footer />

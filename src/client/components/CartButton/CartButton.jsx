@@ -30,7 +30,7 @@ const CartButton = () => {
           <div className='item-wrapper'>
             <img src={item.image} alt="" width={50} height={50} />
             <p className='item-name'>{subString(item.name, 15 )} x {item.quantity}</p>
-            <p>{item.itemTotal}</p>
+            <p>${item.itemTotal}</p>
           </div>
         )}
         <div className='check-out-btn-wrapper'>

@@ -10,13 +10,13 @@ import { useCart } from 'react-use-cart';
 import { toast } from 'react-toastify';
 
 const RecipeDetailModal = () => {
-  const { setItems, addItem  } = useCart()
+  const { setItems, addItem } = useCart()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const { isRecipeDetailModalShow, recipe } = useSelector(state => ({ ...state.data }));
 
   const loadData = async () => {
-    const result = await axios.get("http://localhost:8080/recipeDetail/4");
+    const result = await axios.get(`http://localhost:8080/recipeDetail/${recipe.id}`);
 
     if (result.data) {
       const newData = result.data.map(item => item.ingredient);
@@ -32,7 +32,7 @@ const RecipeDetailModal = () => {
   }
 
   const handleAddAll = () => {
-    data.forEach((item)=>{
+    data.forEach((item) => {
       addItem(item);
     })
     toast.success(`Added ${data.length} ingredients to Cart`,
@@ -49,8 +49,10 @@ const RecipeDetailModal = () => {
   }
 
   useEffect(() => {
-    loadData();
-  }, [])
+    if (recipe.id) {
+      loadData();
+    };
+  }, [recipe])
 
   return (
     <Modal
@@ -87,8 +89,8 @@ const RecipeDetailModal = () => {
           </Row>
           {data.length > 0 && data.map((item, index) =>
             <Row className='recipe-row-wrapper' key={index}>
-              <Col xs={2}><Badge bg="info">Ingredient {index + 1}:</Badge></Col>
-              <Col xs={10}><p>{item.name}</p></Col>
+              <Col xs={3}><Badge bg="info">Ingredient {index + 1}:</Badge></Col>
+              <Col xs={9}><p>{item.name}</p></Col>
             </Row>
           )}
         </Container>

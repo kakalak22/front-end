@@ -8,7 +8,8 @@ const initialState = {
     isLoading: false,
     user: {},
     recipe: {},
-    cart: []
+    cart: [],
+    recipes:[]
 };
 
 const postReducer = (state = initialState, action) => {
@@ -79,6 +80,11 @@ const postReducer = (state = initialState, action) => {
             return{
                 ...state,
                 user: action.payload
+            }
+        case types.SET_RECIPES_START:
+            return{
+                ...state,
+                recipes: action.payload
             }
         default:
             return state;

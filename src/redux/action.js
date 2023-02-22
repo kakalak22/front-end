@@ -65,6 +65,10 @@ const setRecipeStart = (user) => ({
     type: types.SET_RECIPE_START,
     payload: user
 })
+const setRecipesStart = (user) => ({
+    type: types.SET_RECIPES_START,
+    payload: user
+})
 
 export function toggleItemModal(status) {
     return function (dispatch) {
@@ -198,5 +202,11 @@ export function setAccount(user){
 export function setRecipe(recipe){
     return function (dispatch) {
         dispatch(setRecipeStart(recipe));
+    }
+}
+
+export function setRecipes(recipes){
+    return function (dispatch) {
+        dispatch(setRecipeStart(recipes));
     }
 }

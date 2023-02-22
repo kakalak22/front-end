@@ -5,6 +5,7 @@ import CartButton from "../../components/CartButton";
 import Feedback from "../../components/Feedback";
 import ItemListRecipes from "../../components/ItemList/ItemListRecipes";
 import ItemListIngredents from "../../components/ItemListIngredents";
+import SearchButton from "../../components/SearchButton/SearchButton";
 import "./Home.scss";
 
 const Home = () => {

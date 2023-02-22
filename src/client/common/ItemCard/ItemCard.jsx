@@ -23,7 +23,7 @@ const ItemCard = ({ data, type }) => {
         src={data.image} />
       <Card.Body
       >
-        <Card.Title style={{height: 50}}>{data.name}</Card.Title>
+        <Card.Title aria-label={data.name} style={{height: 50, color:'#f54748', fontWeight:700}}>{subString(data.name,45)}</Card.Title>
         <div>
         {data.price ? <Card.Text style={{fontWeight: 600, fontSize:'15px'}}>${data.price}</Card.Text> : null}
           <Card.Text style={{height: 150}}>
