@@ -9,30 +9,32 @@ import { useCart } from 'react-use-cart';
 
 const ItemCard = ({ data, type }) => {
   const dispatch = useDispatch();
-  const {addItem} = useCart();
-  const handleViewMore = () =>{
+  const { addItem } = useCart();
+  const handleViewMore = () => {
     dispatch(setRecipe(data))
     dispatch(toggleRecipeDetailModal(true));
 
   }
   return (
     <Card style={{ width: '300px' }} border="light" className='card-wrapper'>
-      <Card.Img variant="top"
-        width={270}
-        height={200}
-        src={data.image} />
+      <div>
+        <Card.Img variant="top"
+          width={270}
+          height={200}
+          src={data.image} />
+      </div>
       <Card.Body
       >
-        <Card.Title aria-label={data.name} style={{height: 50, color:'#f54748', fontWeight:700}}>{subString(data.name,45)}</Card.Title>
+        <Card.Title aria-label={data.name} style={{ height: 50, color: '#f54748', fontWeight: 700 }}>{subString(data.name, 45)}</Card.Title>
         <div>
-        {data.price ? <Card.Text style={{fontWeight: 600, fontSize:'15px'}}>${data.price}</Card.Text> : null}
-          <Card.Text style={{height: 150}}>
-            {subString(data.description,150)}
+          {data.price ? <Card.Text style={{ fontWeight: 600, fontSize: '15px' }}>${data.price}</Card.Text> : null}
+          <Card.Text style={{ height: 150 }}>
+            {subString(data.description, 150)}
           </Card.Text>
         </div>
         {type === "add" ?
           <Stack>
-            <Button className='add-to-cart-btn' onClick={()=>addItem(data)}>Add to Cart</Button>
+            <Button className='add-to-cart-btn' onClick={() => addItem(data)}>Add to Cart</Button>
           </Stack> :
           <Stack >
             <Button className='add-to-cart-btn' onClick={handleViewMore}>View More</Button>

@@ -4,7 +4,7 @@ import { Button, Container, Spinner, Stack } from 'react-bootstrap'
 import { ItemCard } from '../../common'
 import './ItemList.scss';
 
-const ItemListRecipes = () => {
+const ItemListRecipes = ({ recipesSearchResult, isSearchLoading, setIsSearchLoading }) => {
   const [recipes, setRecipes] = useState([]);
   const [length, setLength] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,15 +18,25 @@ const ItemListRecipes = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true)
-    const timeoutId = setTimeout(() => {
-      loadRecipes()
-    }, 2000);
-
+    let timeoutId = undefined;
+    if (recipesSearchResult?.length > 0) {
+      setIsLoading(true)
+      timeoutId = setTimeout(() => {
+        setRecipes(recipesSearchResult.slice(0, currentItemNum));
+        setLength(recipesSearchResult.length)
+        setIsSearchLoading(false);
+        setIsLoading(false)
+      }, 2000);
+    } else {
+      setIsLoading(true)
+      timeoutId = setTimeout(() => {
+        loadRecipes()
+      }, 2000);
+    }
     return () => clearTimeout(timeoutId);
-  }, [currentItemNum])
+  }, [currentItemNum, recipesSearchResult])
 
-  if (recipes.length < 1)
+  if (recipes.length < 1 || isSearchLoading)
     return <Container style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}>
       <Spinner animation="border" role="status" style={{ width: 50, height: 50, color: "#f54748" }} />
     </Container>

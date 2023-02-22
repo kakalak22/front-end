@@ -4,12 +4,11 @@ import { Button, Container, Spinner, Stack } from 'react-bootstrap'
 import { ItemCard } from '../../common'
 import '../ItemList/ItemList.scss';
 
-const ItemListIngredents = () => {
+const ItemListIngredents = ({ingredientsSearchResult, isSearchLoading, setIsSearchLoading}) => {
   const [ingredents, setIngredents] = useState([]);
   const [length, setLength] = useState();
   const [currentItemNum, setCurrentItemNum] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
-
   const loadIngredents = async () => {
     const result = await axios.get("http://localhost:8080/ingredients/");
     setIngredents(result.data.slice(0, currentItemNum));
@@ -19,15 +18,25 @@ const ItemListIngredents = () => {
   };
 
   useEffect(() => {
+    let timeoutId = undefined;
+    if (ingredientsSearchResult?.length > 0) {
+      setIsLoading(true);
+      timeoutId = setTimeout(() => {
+        setIngredents(ingredientsSearchResult.slice(0, currentItemNum));
+        setLength(ingredientsSearchResult.length)
+        setIsSearchLoading(false);
+        setIsLoading(false);
+      }, 2000);
+    } else {
     setIsLoading(true)
-    const timeoutId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       loadIngredents()
     }, 2000);
-
+  }
     return () => clearTimeout(timeoutId);
   }, [currentItemNum])
 
-  if (ingredents.length < 1)
+  if (ingredents.length < 1 || isSearchLoading)
     return (
       <Container style={{ display: 'flex', justifyContent: 'center',padding: '50px' }}>
         <Spinner animation="border" role="status" style={{ width: 50, height: 50, color: "#f54748" }} />
