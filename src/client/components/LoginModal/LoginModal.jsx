@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { IoEyeOffSharp, IoEyeSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSchema, registerSchema } from '../../../constant/schema';
 import { LoginAccount, toggleLoginModal, toggleRegisterModal } from '../../../redux/action';
@@ -9,7 +10,8 @@ import "./LoginModal.scss";
 const LoginModal = () => {
     const dispatch = useDispatch();
     const { isLoginModalShow, user } = useSelector(state => ({ ...state.data }));
-    
+    const [isPasswordShow, setIsPasswordShow ] = useState(false);
+
     const handleShow = () => {
         dispatch(toggleLoginModal(true));
     }
@@ -22,6 +24,10 @@ const LoginModal = () => {
         dispatch(toggleRegisterModal(true));
     }
 
+    const handleShowPassword = () => {
+        setIsPasswordShow(prevState => !prevState);
+    }
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -32,7 +38,7 @@ const LoginModal = () => {
             dispatch(LoginAccount(values))
         },
     });
-    
+
     return (
         <>
             <Modal show={isLoginModalShow} onHide={handleClose} centered>
@@ -60,22 +66,31 @@ const LoginModal = () => {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                isInvalid={formik.touched.password && !!formik.errors.password}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {formik.errors.password}
-                            </Form.Control.Feedback>
+                            <InputGroup>
+                                <Button
+                                    variant={!formik?.errors?.password ? 'outline-secondary' : 'outline-danger'}
+                                    className={!formik?.errors?.password ? 'btn-show-password' : 'btn-show-password-error'}
+                                    onClick={handleShowPassword}
+                                >
+                                    {isPasswordShow ? <IoEyeSharp /> : <IoEyeOffSharp />}
+                                </Button>
+                                <Form.Control
+                                    type={isPasswordShow ? 'text' : 'password'}
+                                    placeholder="Password"
+                                    name="password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    isInvalid={formik.touched.password && !!formik.errors.password}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {formik.errors.password}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </Form.Group>
                         {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Check me out" />
                         </Form.Group> */}
-                        <p>Don't have account? Register <Button variant='link' className='link-btn' onClick={handleRegisterClicked}>here</Button> </p> 
+                        <p>Don't have account? Register <Button variant='link' className='link-btn' onClick={handleRegisterClicked}>here</Button> </p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>

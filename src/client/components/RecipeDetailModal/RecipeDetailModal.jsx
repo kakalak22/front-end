@@ -13,7 +13,7 @@ const RecipeDetailModal = () => {
   const { setItems, addItem } = useCart()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const { isRecipeDetailModalShow, recipe } = useSelector(state => ({ ...state.data }));
+  const { isRecipeDetailModalShow, recipe, user } = useSelector(state => ({ ...state.data }));
 
   const loadData = async () => {
     const result = await axios.get(`http://localhost:8080/recipeDetail/${recipe.id}`);
@@ -23,6 +23,17 @@ const RecipeDetailModal = () => {
       setData(newData);
     }
   };
+
+  const postFavorite = async() =>{
+    const body = {
+      account: user,
+      recipe: recipe
+    }
+    const result = await axios.post("http://localhost:8080/accountFavoriteRecipe/",body);
+    if(result.data){
+      toast.success("Added to Favorite Ricipe. You can view it on your account profile")
+    }
+  }
 
   const handleShow = () => {
     dispatch(toggleRecipeDetailModal(true));
@@ -46,6 +57,10 @@ const RecipeDetailModal = () => {
         progress: undefined,
         theme: "light",
       })
+  }
+
+  const handleAddFavorite =() =>{
+    postFavorite();
   }
 
   useEffect(() => {
@@ -96,6 +111,9 @@ const RecipeDetailModal = () => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
+        <Button variant="success" onClick={handleAddFavorite}>
+          Add To my Favorite
+        </Button>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Nav, NavDropdown, Row, Image, OverlayTrigger, Popover } from "react-bootstrap";
 import "./Header.scss";
-import { logo } from "../../../assets";
+import { newLogo } from "../../../assets";
 import Hamburger from "hamburger-react";
 import { useLocation, Outlet } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -22,9 +22,9 @@ const Header = () => {
   let location = useLocation();
   const links = [
     { to: "/", name: "Home" },
-    { to: "/Link1", name: "All Recipes" },
-    { to: "/Link2", name: "All Ingredients" },
-    // { to: "/Link3", name: "Link3" },
+    // { to: "/search?q=", name: "All Recipes and Ingredients" }
+    { to: "/checkout", name: "Checkout" },
+
   ];
 
   useEffect(()=>{
@@ -38,7 +38,7 @@ const Header = () => {
       <Container>
         <Row className="header-wrapper">
           <Col className="logo-wrapper" xs={8} xl={3}>
-            <img className="logo" src={logo} />
+            <img className="logo" src={newLogo} style={{height:50}} />
           </Col>
           <Col xs={1} xl={6}>
             <Nav className="nav-wrapper">

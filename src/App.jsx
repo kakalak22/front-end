@@ -6,7 +6,7 @@ import { Footer, Header, OverlayNav } from "./client/common";
 import ItemDetailModal from "./client/components/ItemDetailModal";
 import LoginModal from "./client/components/LoginModal";
 import RegisterModal from "./client/components/RegisterModal";
-import { Home, SearchResult } from "./client/View";
+import { Home, Profile, SearchResult } from "./client/View";
 import { Login } from "./client/View";
 import 'react-toastify/dist/ReactToastify.css';
 import RecipeDetailModal from "./client/components/RecipeDetailModal";
@@ -18,6 +18,7 @@ import SearchButton from "./client/components/SearchButton/SearchButton";
 
 function App() {
   const [showButton, setShowButton] = useState(false);
+  const [showSearchButton, setShowSearchButton] = useState(false);
   let location = useLocation();
   useEffect(() => {
     function handleScroll() {
@@ -25,17 +26,29 @@ function App() {
       const scrollPosition = window.scrollY;
 
       // Set the height at which the button should appear
-      const showAtHeight = 500;
+      const showAtHeight = 100;
 
       // Show or hide the button based on the current scroll position
       if (scrollPosition >= showAtHeight) {
         setShowButton(true);
+        setShowSearchButton(true);
+
       } else {
         setShowButton(false);
+        setShowSearchButton(false);
       }
       if(location?.pathname==='/checkout'){
         setShowButton(false);
+        setShowSearchButton(false);
       }
+      if(location?.pathname.includes('search')){
+        setShowSearchButton(false);
+      }
+      if(location?.pathname.includes('profile')){
+        setShowSearchButton(false);
+        setShowButton(false);
+      }
+      
     }
 
     // Add a scroll event listener to the window
@@ -49,7 +62,7 @@ function App() {
   return (
     <div style={{position:'relative'}}>
       {showButton && <CartButton />}
-      {showButton && <SearchButton />}
+      {showSearchButton && <SearchButton />}
 
       {<ToastContainer
         position="top-right"
@@ -73,6 +86,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="checkout" element={<Checkout/>}/>
           <Route path="search" element={<SearchResult/>} />
+          <Route path="profile" element={<Profile/>} />
         </Route>
       </Routes>
       <Footer />

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Badge, Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import ItemListRecipes from '../../components/ItemList/ItemListRecipes';
 import ItemListIngredents from '../../components/ItemListIngredents/ItemListIngredents';
 import "./SearchResult.scss"
@@ -14,7 +15,7 @@ const SearchResult = () => {
   const [searchType, setSearchType] = useState("all");
   const [caloriesFrom, setCaloriesFrom] = useState(0);
   const [caloriesTo, setCaloriesTo] = useState(0);
-  const [meal, setMeal] = useState("");
+  const [meal, setMeal] = useState("all");
   const [ingredientCaloriesFrom, setIngredientCaloriesFrom] = useState(0);
   const [ingredientCaloriesTo, setIngredientCaloriesTo] = useState(0);
   const [ingredientPriceFrom, setIngredientPriceFrom] = useState(0);
@@ -85,37 +86,58 @@ const SearchResult = () => {
     },
   });
   useEffect(() => {
-      const newRecipes = recipesRef.filter((item) => {
-        const calo = Number.parseInt(item.calories);
-        const caloMatch = (caloriesFrom < caloriesTo) ?  (calo >= caloriesFrom && calo <= caloriesTo) : true;
-        const mealMatch = meal==="all" ? true : meal === item.meal;
-        return caloMatch && mealMatch;
-      })
-      // console.log(newRecipes)
-      setIsRecipesSearchLoading(true);
-      setRecipesSearchResult(newRecipes);
+    console.log(caloriesFrom)
+    if(caloriesFrom>caloriesTo){
+      toast.error("Calories From is greater than Calories To.  Showing all result")
+    }
+    const newRecipes = recipesRef.filter((item) => {
+      const calo = Number.parseInt(item.calories);
+      const caloMatch = (caloriesFrom < caloriesTo) ? (calo >= caloriesFrom && calo <= caloriesTo) : true;
+      const mealMatch = meal === "all" ? true : meal === item.meal;
+      return caloMatch && mealMatch;
+    })
+    // console.log(newRecipes)
+    setIsRecipesSearchLoading(true);
+    setRecipesSearchResult(newRecipes);
   }, [caloriesFrom, caloriesTo, meal])
 
   useEffect(() => {
+    if(ingredientCaloriesFrom > ingredientCaloriesTo){
+      toast.error("Calories From is greater than Calories To.  Showing all result")
+    }
+    if(ingredientPriceFrom > ingredientPriceTo){
+      toast.error("Price From is greater than price To.  Showing all result")
+    }
     const newIngredients = ingredientsRef.filter((item) => {
       const calo = Number.parseInt(item.calories);
       const price = Number.parseInt(item.price);
-      const caloMatch = (ingredientCaloriesFrom < ingredientCaloriesTo) ?  (calo >= ingredientCaloriesFrom && calo <= ingredientCaloriesTo) : true;
-      const pirceMatch = (ingredientPriceFrom < ingredientPriceTo) ?  (price >= ingredientPriceFrom && price <= ingredientPriceTo) : true;
+      const caloMatch = (ingredientCaloriesFrom < ingredientCaloriesTo) ? (calo >= ingredientCaloriesFrom && calo <= ingredientCaloriesTo) : true;
+      const pirceMatch = (ingredientPriceFrom < ingredientPriceTo) ? (price >= ingredientPriceFrom && price <= ingredientPriceTo) : true;
       return caloMatch && pirceMatch;
     })
     // console.log(newIngredients)
     setIsIngredientsSearchLoading(true);
     setIngredientsSearchResult(newIngredients);
-    
-  }, [ingredientCaloriesFrom, ingredientCaloriesTo,ingredientPriceFrom, ingredientPriceTo])
+
+  }, [ingredientCaloriesFrom, ingredientCaloriesTo, ingredientPriceFrom, ingredientPriceTo])
 
   useEffect(() => {
-    if (searchType === "all") {
-      fetchRecipesSearchResult();
-      fetchIngredientsSearchResult();
+    switch (searchType) {
+      case "ingredient": {
+        fetchIngredientsSearchResult();
+        break;
+      }
+      case "recipe": {
+        fetchRecipesSearchResult();
+        break;
+      }
+      case "all": {
+        fetchRecipesSearchResult();
+        fetchIngredientsSearchResult();
+        break;
+      }
     }
-  }, [query])
+  }, [query, searchType])
 
   return (
     <div className="home-wrapper" style={{ padding: 50, minHeight: '100vh' }} >
@@ -174,11 +196,15 @@ const SearchResult = () => {
                 <option value="Dinner">Dinner</option>
                 <option value="Snack">Snack</option>
               </Form.Select>
-              <Button variant='secondary' onClick={()=>{
+              <Button variant='secondary' onClick={() => {
                 handleCaloriesFrom();
                 handleCaloriesTo();
+                setCaloriesFrom(0);
+                setCaloriesTo(0);
                 setRecipesSearchResult(recipesRef);
-                }}>
+                setSearchParams(`query=`);
+                setQuery('');
+              }}>
                 Clear Filter
               </Button>
             </InputGroup>
@@ -214,7 +240,7 @@ const SearchResult = () => {
                 type='number'
                 placeholder='Calories to'
                 onChange={handleIngredientCaloriesTo}
-                min={ingredientCaloriesFrom + 1 }
+                min={ingredientCaloriesFrom + 1}
                 value={ingredientCaloriesTo}
               />
             </InputGroup>
@@ -234,24 +260,30 @@ const SearchResult = () => {
                 min={ingredientPriceFrom + 1}
                 value={ingredientPriceTo}
               />
-              <Button variant='secondary' onClick={()=>{
+              <Button variant='secondary' onClick={() => {
                 handleIngredientCaloriesFrom();
                 handleIngredientCaloriesTo();
                 handleIngredientPriceFrom();
                 handleIngredientPriceTo();
+                setIngredientCaloriesFrom(0);
+                setIngredientCaloriesTo(0);
+                setIngredientPriceFrom(0);
+                setIngredientPriceTo(0);
                 setIngredientsSearchResult(ingredientsRef);
-                }}>
+                setSearchParams(`query=`);
+                setQuery('');
+              }}>
                 Clear Filter
               </Button>
             </InputGroup>
           </Container>
           <Container>
-          {
+            {
               ingredientsSearchResult.length > 0 ? <React.Fragment>
                 <Container style={{ padding: '20px', marginBottom: '20px' }}>
                   <h3 style={{ color: '#f54748', fontWeight: 400 }}>Found {ingredientsSearchResult.length} ingredients matched your search</h3>
                 </Container>
-                <ItemListIngredents ingredientsSearchResult={ingredientsSearchResult}isSearchLoading={isIngredientsSearchLoading} setIsSearchLoading={setIsIngredientsSearchLoading} />
+                <ItemListIngredents ingredientsSearchResult={ingredientsSearchResult} isSearchLoading={isIngredientsSearchLoading} setIsSearchLoading={setIsIngredientsSearchLoading} />
               </React.Fragment> :
                 <h3>No ingredient matched your search</h3>
             }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Popover } from 'react-bootstrap'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logoutAccount } from '../../../redux/action';
 
 const PopoverUser =
@@ -11,6 +12,7 @@ const PopoverUser =
             const handleLogout = () => {
                 dispatch(logoutAccount());
             }
+            const navigate = useNavigate();
 
             return (
                 <Popover ref={ref} body {...props}>
@@ -22,7 +24,7 @@ const PopoverUser =
                             <Button
                                 className='checkout-btn'
                                 style={{ marginRight: '10px' }}
-
+                                onClick={()=>navigate("profile")}
                             >
                                 View Profile
                             </Button>

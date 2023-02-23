@@ -28,9 +28,6 @@ const Checkout = () => {
           <Tab eventKey={2} title="Checkout Info" disabled={isEmpty||!user?.username}>
             <CheckoutInfo />
           </Tab>
-          <Tab eventKey={3} title="Payment" disabled >
-            <Payment/>
-          </Tab>
         </Tabs>
       </Container>
     </div>
