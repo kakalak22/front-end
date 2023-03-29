@@ -1,0 +1,27 @@
+@import "../../../styles/variables";
+
+.form-field-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.form-field-wrapper-long {
+    gap: 10px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.btn-show-password {
+    border-color: #ced4da !important;
+}
+
+.btn-show-password-error {
+    border-color: #dc3545 !important;
+}
+
+.password-input{
+   border-top-right-radius: 0.375rem !important;
+   border-bottom-right-radius: 0.375rem !important;
+}

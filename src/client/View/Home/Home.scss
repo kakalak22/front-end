@@ -1,5 +1,19 @@
+@import "../../../styles/variables";
+
 .home-wrapper {
   background-image: url("../../../assets/home/background.png");
   background-size: cover;
-  height: 100vh;
+  height: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.title-wrapper{
+  padding: 20px;
+
+  h2{
+    color: $main_color;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
 }

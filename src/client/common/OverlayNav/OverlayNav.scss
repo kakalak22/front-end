@@ -1,0 +1,24 @@
+@import "../../../styles/variables";
+
+.overlaynav-wrapper {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  .overlaynav__link {
+    padding: 10px;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-decoration: none;
+    color: $main_color;
+  }
+}

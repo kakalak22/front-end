@@ -15,10 +15,147 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    z-index: 6;
   }
 
   .hamburger-button {
     background-color: $main_color;
     border-radius: 8px;
+  }
+
+  .signup-btn {
+    display: none;
+  }
+
+  .nav-wrapper {
+    display: none;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%,
+  100% {
+    transform: translateY(-10%) scale(1.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10%) scale(1.5);
+    opacity: 0.6;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .header-wrapper {
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // margin-top: 3px;
+
+      .dropdown-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .dropdown-arrow {
+          margin-top: 5px;
+          position: absolute;
+          right: 0px;
+          transition: transform 0.25s ease-out;
+          transform: rotate(0) scale(1.5);
+        }
+        &:hover {
+          .nav-link {
+            color: $main_color;
+          }
+          .dropdown-arrow {
+            color: $main_color;
+            animation: MoveUpDown 1s ease-out infinite;
+            transform: scale(1.5);
+          }
+        }
+      }
+      .dropdown-toggle::after {
+        border: unset;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: $nav_text_color;
+        font-size: 1.2em;
+        font-weight: 500;
+        display: inline-block;
+        position: relative;
+
+        &:hover {
+          color: $main_color;
+          transition: all ease 0.25s;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          transform: scaleX(0);
+          height: 3px;
+          bottom: 0;
+          left: 0;
+          background-color: $main_color;
+          transform-origin: center;
+          transition: transform 0.25s ease-out;
+        }
+
+        &:hover::after {
+          transform: scaleX(1);
+          transform-origin: center;
+        }
+      }
+
+      .active {
+        text-decoration: none;
+        color: $main_color;
+        font-size: 1.2em;
+        font-weight: 500;
+        display: inline-block;
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          transform: scaleX(1);
+          height: 3px;
+          bottom: 0;
+          left: 0;
+          background-color: $main_color;
+          transform-origin: center;
+          transition: transform 0.25s ease-out;
+        }
+      }
+    }
+
+    .hamburger-button {
+      display: none;
+    }
+    .signup-btn {
+      display: block;
+      background-color: $main_color;
+      border: none;
+      font-size: 1.2em;
+      font-weight: 500;
+
+      padding: 6px 15px;
+
+      &:hover {
+        background-color: $main_color_hover;
+        transition: all ease 0.5s;
+      }
+
+      &:active{
+        background-color: $main_color_hover !important;
+      }
+
+      
+    }
   }
 }

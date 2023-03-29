@@ -5,12 +5,15 @@ import App from "./App";
 import "./index.scss";
 import store from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "react-use-cart";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

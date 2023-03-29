@@ -1,0 +1,48 @@
+@import "../../../styles/variables";
+
+.checkout-info-wrapper {
+    display: flex;
+    padding: 50px;
+
+    .checkout-form-wrapper {
+        width: 50%;
+        height: 400px;
+    }
+
+    .checkout-items-wrapper {
+        width: 50%;
+        height: 400px;
+        overflow-y: auto;
+    }
+}
+
+.total-checkout-container {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    gap: 100px
+}
+
+.place-order-btn {
+    display: block;
+    background-color: $main_color !important;
+    border: none !important;
+    font-size: 1.2em;
+    font-weight: 500;
+
+    padding: 6px 15px;
+
+    &:hover {
+        background-color: $main_color_hover;
+        transition: all ease 0.5s;
+    }
+
+    &:active {
+        background-color: $main_color_hover !important;
+    }
+
+
+}

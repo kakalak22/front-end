@@ -1,0 +1,126 @@
+@import "../../../styles/variables";
+
+/***************CUSTOM STYLE FOR SWIPER****************/
+
+.mySwiper {
+  display: flex;
+  justify-content: center;
+  //   width: 100%;
+}
+
+.mySwiper .swiper-wrapper {
+  //   width: 100%;
+  // height: 600px;
+  position: relative;
+}
+
+/* target the active bullet */
+.swiper-pagination {
+  bottom: 10px !important;
+}
+.mySwiper span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background-color: $main_color;
+  width: 80px;
+  border-radius: 10px;
+  opacity: var(--swiper-pagination-bullet-inactive-opacity, 1);
+}
+
+/* target all bullets */
+.mySwiper .swiper-pagination-bullet {
+  background-color: white;
+  width: 30px;
+  border-radius: 10px;
+  opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.8);
+}
+
+.mySwiper .swiper-button-prev {
+  display: none;
+}
+
+.mySwiper .swiper-button-next {
+  display: none;
+}
+
+.mySwiper2 .swiper-slide {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+.caroulsel-item-wrapper {
+  position: relative;
+  .carousel-img {
+    width: 100%;
+    height: 100%;
+  }
+  .carousel-text {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px;
+    color: $main_color;
+    background-color: white;
+    margin: 5px 5px;
+    border-radius: 10px;
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .caroulsel-item-wrapper {
+    .carousel-text {
+      position: absolute;
+      bottom: 0;
+      padding: 10px;
+      color: $main_color;
+      background-color: white;
+      margin: 5px 5px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+  }
+}
+
+@media screen and (min-width: 790px) {
+  .caroulsel-item-wrapper {
+    height: 600px;
+    .carousel-img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 1060px) {
+  .mySwiper:hover {
+    .swiper-button-prev {
+      background-color: $main_color;
+      padding: 30px;
+      padding-right: 32px;
+      border-radius: 100%;
+      left: 15px;
+      // top: 350px;
+      z-index: 20;
+      display: flex;
+      position: absolute;
+    }
+
+    .swiper-button-prev::after {
+      font-size: 30px;
+    }
+
+    .swiper-button-next {
+      background-color: $main_color;
+      padding: 30px;
+      padding-left: 32px;
+      border-radius: 100%;
+      right: 15px;
+      // top: 350px;
+      z-index: 20;
+      display: flex;
+    }
+
+    .swiper-button-next::after {
+      font-size: 30px;
+    }
+  }
+}
